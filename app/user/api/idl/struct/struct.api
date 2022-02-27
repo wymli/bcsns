@@ -1,0 +1,64 @@
+syntax = "v1"
+
+type (
+	RegisterReq {
+    Phone    int `json:"phone"`
+    Nickname string `json:"nickname"`
+    Avatar   string `json:"avatar"`
+    Sex      int    `json:"sex"`
+    Age      int    `json:"age"`
+    Address string `json:"address"`
+    PublicKey  string `json:"public_key"`
+		Password string `json:"password"`
+    SMSCode string `json:"sms_code"`
+	}
+	RegisterResp {
+    UserId uint64 `json:"user_id"`
+		AccessToken  string `json:"access_token"`
+		AccessExpire int64  `json:"access_expire"`
+		RefreshAfter int64  `json:"refresh_after"`
+	}
+)
+
+type (
+	LoginReq {
+		Phone   int `json:"phone"`
+    LoginType string `json:"login_type"`
+		Password string `json:"password"`
+    SMSCode string `json:"sms_code"`
+	}
+	LoginResp {
+    UserId uint64 `json:"user_id"`
+		AccessToken  string `json:"access_token"`
+		AccessExpire int64  `json:"access_expire"`
+		RefreshAfter int64  `json:"refresh_after"`
+	}
+)
+
+type (
+	WXMiniAuthReq {
+		Code          string `json:"code"`
+		IV            string `json:"iv"`
+		EncryptedData string `json:"encryptedData"`
+	}
+	WXMiniAuthResp {
+		AccessToken  string `json:"access_token"`
+		AccessExpire int64  `json:"access_expire"`
+		RefreshAfter int64  `json:"refresh_after"`
+	}
+)
+
+type (
+	UserProfileReq {
+    UserId uint64 `json:"user_id"`
+	}
+	UserProfileResp {
+    UserId   uint64  `json:"user_id"`
+    Nickname string `json:"nickname"`
+    Sex      int    `json:"sex"`
+    Age      int    `json:"age"`
+    Avatar   string `json:"avatar"`
+    Address string `json:"address"`
+    PublicKey  string `json:"public_key"`
+	}
+)

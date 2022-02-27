@@ -1,0 +1,18 @@
+Name: auth-rpc
+ListenOn: 0.0.0.0:9001
+Mode: dev
+
+Log:
+  ServiceName: auth-rpc
+  Level: info
+  Mode: console
+  Encoding: plain
+
+Logx:
+  Env: dev
+  Level: info
+  ServiceName: auth-rpc
+
+JwtAuth:
+  AccessSecret: ae0536f9-6450-4606-8e13-5a19ed505ea0
+  AccessExpire: 31536000

@@ -1,0 +1,15 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+Mode: dev
+
+Log:
+  ServiceName: user-api
+  Level: error
+
+Dgraph:
+  Endpoint: 127.0.0.1:9080
+
+AuthRpcConf:
+  Endpoints:
+    - 127.0.0.1:9001
