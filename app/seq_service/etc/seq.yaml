@@ -1,0 +1,18 @@
+Name: seq-rpc
+ListenOn: 0.0.0.0:9009
+Mode: dev
+
+Log:
+  ServiceName: seq-rpc
+  Level: error
+
+Logx:
+  Env: dev
+  Level: debug
+  ServiceName: seq-rpc
+
+Seq:
+  InitMaxId: 10000
+  Step: 10000
+  FileNameOptional: /tmp/seq.seq
+  UserPartitionSize: 1024

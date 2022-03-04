@@ -1,0 +1,22 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;pb";
+
+
+message 
+
+message UserOnlineReq{
+  uint64 user_id = 1;
+  string token = 2;
+}
+
+message HeartbeatReq{
+}
+
+message UserOfflineReq{
+}
+
+message CommonResp{
+  int64 code = 1;
+  string msg = 2;
+}

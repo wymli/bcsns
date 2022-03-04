@@ -3,7 +3,7 @@ package rpcfilter
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/wymli/bcsns/common/logx"
 	"google.golang.org/grpc"
 )
 

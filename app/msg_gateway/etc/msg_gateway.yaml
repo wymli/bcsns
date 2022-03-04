@@ -1,0 +1,25 @@
+Name: msggateway-rpc
+ListenOn: 0.0.0.0:9001
+Mode: dev
+
+Log:
+  ServiceName: msggateway-rpc
+  Level: error
+
+Logx:
+  Env: dev
+  Level: debug
+  ServiceName: msggateway-rpc
+
+Redis:
+  Host: localhost:6731
+  Pass: 123
+  Type: node
+
+Deploy:
+  # Use: k8s,docker,docker-compose
+  Use: docker
+
+Online:
+  RefreshInterval: 5 # min
+  KeyFormat: online:%d

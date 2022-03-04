@@ -1,0 +1,45 @@
+syntax = "v1"
+
+
+type (
+	SendUserMsgReq {
+    ContentType string `json:"content_type,omitempty"` // 内容类型 see http-header.content-type rfc
+    SendMsgId   string `json:"send_msg_id,omitempty"`  // 用于服务端去重,客户端去重
+    SendTime    int64  `json:"send_time,omitempty"`    // 用于接收端排序,但客户端时间不可信,除非先时间同步
+    SendUserId  uint64 `json:"send_user_id,omitempty"` // sender user id
+    RecvUserId  uint64 `json:"recv_user_id,omitempty"` // recver user id
+    Data        []byte `json:"data,omitempty"`         // payload body
+    IsTest      *bool  `json:"is_test,omitempty"`      // 是否测试
+  }
+
+	SendUserMsgResp {
+	}
+)
+
+type (
+	SendRoomMsgReq {
+    ContentType string `json:"content_type,omitempty"` // 内容类型
+    SendMsgId   string `json:"send_msg_id,omitempty"`  // 用于服务端去重,客户端去重
+    SendTime    int64  `json:"send_time,omitempty"`    // 用于接收端排序,但客户端时间不可信,除非先时间同步 <- 同一用户的消息使用此字段排序,不同用户的消息使用ServerTime排序
+    SendUserId  uint64 `json:"send_user_id,omitempty"` // sender user id
+    RoomId      uint64 `json:"room_id,omitempty"`      // chat room id
+    Data        []byte `json:"data,omitempty"`         // payload body
+    IsTest      *bool  `json:"is_test,omitempty"`      // 是否测试
+  }
+
+	SendRoomMsgResp {
+	}
+)
+
+type (
+	PostMomentsReq {
+    ContentType string `json:"content_type,omitempty"`  // 内容类型
+    MomentsId   string `json:"moments_id,omitempty"`    // 用于服务端去重,客户端去重
+    UserId      uint64 `json:"user_id,omitempty"`       // sender user id
+    Data        []byte `json:"data,omitempty"`          // payload body
+    IsTest      *bool  `json:"is_test,omitempty"`       // 是否测试
+  }
+
+	PostMomentsResp {
+	}
+)

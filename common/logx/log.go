@@ -46,6 +46,10 @@ func Init(config Config) {
 	defaultLogger = zerolog.New(w).With().Str("service", config.ServiceName).Timestamp().Caller().Logger().Level(level)
 }
 
+func Fatalf(format string, v ...interface{}) {
+	defaultLogger.Fatal().Msgf(format, v...)
+}
+
 func FatalIfErr(err error) {
 	if err != nil {
 		defaultLogger.Fatal().Msg(err.Error())

@@ -25,12 +25,17 @@ var (
 	ERROR_SERVER_COMMON  StdError = StdError{1001, "服务器内部错误"}
 	ERROR_BAD_REQUEST    StdError = StdError{1002, "参数错误"}
 	ERROR_TOKEN_INVALID  StdError = StdError{1003, "无效的Token"}
-	ERROR_DB             StdError = StdError{1004, "数据库繁忙"}
 	ERROR_USER_NOT_FOUND StdError = StdError{1005, "该用户不存在"}
 	ERROR_USER_DUPLICATE StdError = StdError{1006, "存在重复用户"}
 	ERROR_USER_WRONG_PWD StdError = StdError{1007, "密码错误"}
+	ERROR_USER_UNAUTHEN  StdError = StdError{1007, "未登录"}
 
 	ERROR_SERVER_UNIMPLEMENTED StdError = StdError{2001, "功能未实现"}
+
+	ERROR_MQ    StdError = StdError{3001, "服务器内部错误"}
+	ERROR_DB    StdError = StdError{3002, "数据库繁忙"}
+	ERROR_REDIS StdError = StdError{3003, "服务器内部错误"}
+	ERROR_SEQID StdError = StdError{3004, "服务器内部错误"}
 
 	ERROR_UNKNOWN StdError = StdError{9999, "未知错误"}
 )
@@ -77,6 +82,10 @@ func (cm *StdError) ToHttpStatusCode() int {
 // 1. 底层是grpc error
 // 2. 底层是CodeMsg标准错误
 func ToGrpcError(err error) error {
+	if err == nil {
+		return nil
+	}
+
 	iErr := errors.Cause(err)
 
 	gErr, ok := status.FromError(iErr)

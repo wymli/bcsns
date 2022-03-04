@@ -5,10 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"sync"
 
 	"github.com/dgraph-io/dgo/v210"
 	"github.com/dgraph-io/dgo/v210/protos/api"
+	"github.com/wymli/bcsns/app/seq_service/seq"
 	"github.com/wymli/bcsns/common/logx"
+	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 )
 
@@ -29,9 +32,37 @@ var (
 )
 
 func main() {
-	uid := condMutate()
-	query(uid)
-	checkpwd(uid)
+	// uid := condMutate()
+	// query(uid)
+	// checkpwd(uid)
+	c := seq.NewSeq(zrpc.MustNewClient(zrpc.RpcClientConf{
+		Target: "localhost:9009",
+	}))
+	done := sync.WaitGroup{}
+	for i := 0; i < 10000; i++ {
+		done.Add(1)
+		ii := i
+		go func() {
+			defer done.Done()
+			l := []uint64{}
+			for j := 0; j < 1; j++ {
+				rsp, err := c.GetSeqId(context.TODO(), &seq.GetSeqIdReq{
+					UserId: uint64(ii),
+				})
+				if err != nil {
+					panic(err)
+				}
+				l = append(l, rsp.SeqId)
+				fmt.Println(ii, rsp, err)
+			}
+			for x := range l[:len(l)-1] {
+				if l[x] > l[x+1] {
+					panic(fmt.Sprintf("bad:%v", l))
+				}
+			}
+		}()
+	}
+	done.Wait()
 }
 
 func checkpwd(uid string) {
