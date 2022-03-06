@@ -21,3 +21,11 @@ Kafka:
     ChatRoom: chat_room
     Moments: moments
   GroupId: abc
+
+Redis:
+  Host: localhost:7603
+  Pass: 123456
+  Type: node
+
+Online:
+  KeyFormat: online:%d

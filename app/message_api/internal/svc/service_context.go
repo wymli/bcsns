@@ -1,15 +1,16 @@
 package svc
 
 import (
-	"github.com/segmentio/kafka-go"
 	"github.com/wymli/bcsns/app/message_api/internal/config"
+	"github.com/wymli/bcsns/app/message_rpc/message"
 	mylogx "github.com/wymli/bcsns/common/logx"
 	zerologx "github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
-	Config      config.Config
-	KafkaClient *kafka.Writer
+	Config     config.Config
+	MessageRpc message.Message
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -17,10 +18,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	mylogx.Init(c.Logx)
 
 	return &ServiceContext{
-		Config: c,
-		KafkaClient: &kafka.Writer{
-			Addr:     kafka.TCP(c.Kafka.Broker.Endpoints...),
-			Balancer: &kafka.LeastBytes{},
-		},
+		Config:     c,
+		MessageRpc: message.NewMessage(zrpc.MustNewClient(c.MessageRpcConf)),
 	}
 }

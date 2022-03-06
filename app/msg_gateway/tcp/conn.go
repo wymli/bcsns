@@ -1,11 +1,11 @@
-package gw
+package tcp
 
 import (
 	"fmt"
 	"net"
 	"sync"
 
-	"github.com/wymli/bcsns/dependency/codec"
+	"github.com/wymli/bcsns/pkg/codec"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )

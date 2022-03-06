@@ -13,7 +13,7 @@ type Logger struct {
 	*zerolog.Logger
 }
 
-var defaultLogger zerolog.Logger
+var GlobalLogger zerolog.Logger
 
 func Init(config Config) {
 	var w io.Writer
@@ -43,34 +43,34 @@ func Init(config Config) {
 		os.Exit(1)
 	}
 
-	defaultLogger = zerolog.New(w).With().Str("service", config.ServiceName).Timestamp().Caller().Logger().Level(level)
+	GlobalLogger = zerolog.New(w).With().Str("service", config.ServiceName).Timestamp().Caller().Logger().Level(level)
 }
 
 func Fatalf(format string, v ...interface{}) {
-	defaultLogger.Fatal().Msgf(format, v...)
+	GlobalLogger.Fatal().Msgf(format, v...)
 }
 
 func FatalIfErr(err error) {
 	if err != nil {
-		defaultLogger.Fatal().Msg(err.Error())
+		GlobalLogger.Fatal().Msg(err.Error())
 	}
 }
 
 func FatalIfErrf(err error, format string, v ...interface{}) {
 	if err != nil {
 		msg := fmt.Sprintf(format, v...)
-		defaultLogger.Fatal().Msgf(msg+", err:%v", err)
+		GlobalLogger.Fatal().Msgf(msg+", err:%v", err)
 	}
 }
 
 func Errorf(format string, v ...interface{}) {
-	defaultLogger.Error().Msgf(format, v...)
+	GlobalLogger.Error().Msgf(format, v...)
 }
 
 func Infof(format string, v ...interface{}) {
-	defaultLogger.Info().Msgf(format, v...)
+	GlobalLogger.Info().Msgf(format, v...)
 }
 
 func Debug(format string, v ...interface{}) {
-	defaultLogger.Debug().Msgf(format, v...)
+	GlobalLogger.Debug().Msgf(format, v...)
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/wymli/bcsns/app/push_service/internal/config"
 	"github.com/wymli/bcsns/app/push_service/internal/handler"
 	"github.com/wymli/bcsns/app/push_service/internal/svc"
-	"github.com/wymli/bcsns/pkg/mq"
+	"github.com/wymli/bcsns/pkg/server_framework/mq"
 
 	"github.com/zeromicro/go-zero/core/conf"
 )

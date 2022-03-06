@@ -5,11 +5,13 @@ import (
 	"github.com/wymli/bcsns/app/push_service/internal/config"
 	mylogx "github.com/wymli/bcsns/common/logx"
 	zerologx "github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
 type ServiceContext struct {
 	Config      config.Config
 	KafkaClient *kafka.Writer
+	RedisClient *redis.Redis
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -22,5 +24,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			Addr:     kafka.TCP(c.Kafka.Broker.Endpoints...),
 			Balancer: &kafka.LeastBytes{},
 		},
+		RedisClient: redis.New(c.Redis.Host, redis.WithPass(c.Redis.Pass)),
 	}
 }

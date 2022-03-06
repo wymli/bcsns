@@ -7,7 +7,7 @@ import (
 
 	"github.com/wymli/bcsns/app/auth_api/internal/svc"
 	"github.com/wymli/bcsns/app/auth_api/internal/types"
-	"github.com/wymli/bcsns/app/auth/rpc/auth"
+	"github.com/wymli/bcsns/app/auth_rpc/auth"
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/logx"
 )
@@ -29,7 +29,6 @@ func NewValidateLogic(ctx context.Context, svcCtx *svc.ServiceContext) ValidateL
 }
 
 func (l *ValidateLogic) Validate(req types.ValidateTokenReq, r *http.Request) (resp *types.ValidateTokenResp, err error) {
-	l.Debug().Msg("i am in validate logic")
 	realRequestPath := r.Header.Get("X-Original-Uri")
 	if realRequestPath == "" {
 		realRequestPath = r.RequestURI

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.27.1
 // 	protoc        v3.15.8
-// source: sdk.proto
+// source: tcp_gateway.proto
 
 package pb
 
@@ -20,7 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UserOnlineReq struct {
+type OnlineUserReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -29,23 +29,23 @@ type UserOnlineReq struct {
 	Token  string `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 }
 
-func (x *UserOnlineReq) Reset() {
-	*x = UserOnlineReq{}
+func (x *OnlineUserReq) Reset() {
+	*x = OnlineUserReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sdk_proto_msgTypes[0]
+		mi := &file_tcp_gateway_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *UserOnlineReq) String() string {
+func (x *OnlineUserReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserOnlineReq) ProtoMessage() {}
+func (*OnlineUserReq) ProtoMessage() {}
 
-func (x *UserOnlineReq) ProtoReflect() protoreflect.Message {
-	mi := &file_sdk_proto_msgTypes[0]
+func (x *OnlineUserReq) ProtoReflect() protoreflect.Message {
+	mi := &file_tcp_gateway_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,19 +56,19 @@ func (x *UserOnlineReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserOnlineReq.ProtoReflect.Descriptor instead.
-func (*UserOnlineReq) Descriptor() ([]byte, []int) {
-	return file_sdk_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use OnlineUserReq.ProtoReflect.Descriptor instead.
+func (*OnlineUserReq) Descriptor() ([]byte, []int) {
+	return file_tcp_gateway_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *UserOnlineReq) GetUserId() uint64 {
+func (x *OnlineUserReq) GetUserId() uint64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *UserOnlineReq) GetToken() string {
+func (x *OnlineUserReq) GetToken() string {
 	if x != nil {
 		return x.Token
 	}
@@ -84,7 +84,7 @@ type HeartbeatReq struct {
 func (x *HeartbeatReq) Reset() {
 	*x = HeartbeatReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sdk_proto_msgTypes[1]
+		mi := &file_tcp_gateway_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -97,7 +97,7 @@ func (x *HeartbeatReq) String() string {
 func (*HeartbeatReq) ProtoMessage() {}
 
 func (x *HeartbeatReq) ProtoReflect() protoreflect.Message {
-	mi := &file_sdk_proto_msgTypes[1]
+	mi := &file_tcp_gateway_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -110,32 +110,32 @@ func (x *HeartbeatReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HeartbeatReq.ProtoReflect.Descriptor instead.
 func (*HeartbeatReq) Descriptor() ([]byte, []int) {
-	return file_sdk_proto_rawDescGZIP(), []int{1}
+	return file_tcp_gateway_proto_rawDescGZIP(), []int{1}
 }
 
-type UserOfflineReq struct {
+type OfflineUserReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *UserOfflineReq) Reset() {
-	*x = UserOfflineReq{}
+func (x *OfflineUserReq) Reset() {
+	*x = OfflineUserReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sdk_proto_msgTypes[2]
+		mi := &file_tcp_gateway_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *UserOfflineReq) String() string {
+func (x *OfflineUserReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserOfflineReq) ProtoMessage() {}
+func (*OfflineUserReq) ProtoMessage() {}
 
-func (x *UserOfflineReq) ProtoReflect() protoreflect.Message {
-	mi := &file_sdk_proto_msgTypes[2]
+func (x *OfflineUserReq) ProtoReflect() protoreflect.Message {
+	mi := &file_tcp_gateway_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -146,9 +146,9 @@ func (x *UserOfflineReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserOfflineReq.ProtoReflect.Descriptor instead.
-func (*UserOfflineReq) Descriptor() ([]byte, []int) {
-	return file_sdk_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use OfflineUserReq.ProtoReflect.Descriptor instead.
+func (*OfflineUserReq) Descriptor() ([]byte, []int) {
+	return file_tcp_gateway_proto_rawDescGZIP(), []int{2}
 }
 
 type CommonResp struct {
@@ -163,7 +163,7 @@ type CommonResp struct {
 func (x *CommonResp) Reset() {
 	*x = CommonResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sdk_proto_msgTypes[3]
+		mi := &file_tcp_gateway_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -176,7 +176,7 @@ func (x *CommonResp) String() string {
 func (*CommonResp) ProtoMessage() {}
 
 func (x *CommonResp) ProtoReflect() protoreflect.Message {
-	mi := &file_sdk_proto_msgTypes[3]
+	mi := &file_tcp_gateway_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -189,7 +189,7 @@ func (x *CommonResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommonResp.ProtoReflect.Descriptor instead.
 func (*CommonResp) Descriptor() ([]byte, []int) {
-	return file_sdk_proto_rawDescGZIP(), []int{3}
+	return file_tcp_gateway_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CommonResp) GetCode() int64 {
@@ -206,43 +206,43 @@ func (x *CommonResp) GetMsg() string {
 	return ""
 }
 
-var File_sdk_proto protoreflect.FileDescriptor
+var File_tcp_gateway_proto protoreflect.FileDescriptor
 
-var file_sdk_proto_rawDesc = []byte{
-	0x0a, 0x09, 0x73, 0x64, 0x6b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x03, 0x73, 0x64, 0x6b,
-	0x22, 0x3e, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65,
-	0x71, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f,
-	0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
-	0x22, 0x0e, 0x0a, 0x0c, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x52, 0x65, 0x71,
-	0x22, 0x10, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x66, 0x66, 0x6c, 0x69, 0x6e, 0x65, 0x52,
-	0x65, 0x71, 0x22, 0x32, 0x0a, 0x0a, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
-	0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04,
-	0x63, 0x6f, 0x64, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x3b, 0x73, 0x64, 0x6b, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+var file_tcp_gateway_proto_rawDesc = []byte{
+	0x0a, 0x11, 0x74, 0x63, 0x70, 0x5f, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x12, 0x02, 0x70, 0x62, 0x22, 0x3e, 0x0a, 0x0d, 0x4f, 0x6e, 0x6c, 0x69, 0x6e,
+	0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49,
+	0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x0e, 0x0a, 0x0c, 0x48, 0x65, 0x61, 0x72, 0x74,
+	0x62, 0x65, 0x61, 0x74, 0x52, 0x65, 0x71, 0x22, 0x10, 0x0a, 0x0e, 0x4f, 0x66, 0x66, 0x6c, 0x69,
+	0x6e, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x22, 0x32, 0x0a, 0x0a, 0x43, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6d,
+	0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x42, 0x06, 0x5a,
+	0x04, 0x2e, 0x3b, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_sdk_proto_rawDescOnce sync.Once
-	file_sdk_proto_rawDescData = file_sdk_proto_rawDesc
+	file_tcp_gateway_proto_rawDescOnce sync.Once
+	file_tcp_gateway_proto_rawDescData = file_tcp_gateway_proto_rawDesc
 )
 
-func file_sdk_proto_rawDescGZIP() []byte {
-	file_sdk_proto_rawDescOnce.Do(func() {
-		file_sdk_proto_rawDescData = protoimpl.X.CompressGZIP(file_sdk_proto_rawDescData)
+func file_tcp_gateway_proto_rawDescGZIP() []byte {
+	file_tcp_gateway_proto_rawDescOnce.Do(func() {
+		file_tcp_gateway_proto_rawDescData = protoimpl.X.CompressGZIP(file_tcp_gateway_proto_rawDescData)
 	})
-	return file_sdk_proto_rawDescData
+	return file_tcp_gateway_proto_rawDescData
 }
 
-var file_sdk_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_sdk_proto_goTypes = []interface{}{
-	(*UserOnlineReq)(nil),  // 0: sdk.UserOnlineReq
-	(*HeartbeatReq)(nil),   // 1: sdk.HeartbeatReq
-	(*UserOfflineReq)(nil), // 2: sdk.UserOfflineReq
-	(*CommonResp)(nil),     // 3: sdk.CommonResp
+var file_tcp_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_tcp_gateway_proto_goTypes = []interface{}{
+	(*OnlineUserReq)(nil),  // 0: pb.OnlineUserReq
+	(*HeartbeatReq)(nil),   // 1: pb.HeartbeatReq
+	(*OfflineUserReq)(nil), // 2: pb.OfflineUserReq
+	(*CommonResp)(nil),     // 3: pb.CommonResp
 }
-var file_sdk_proto_depIdxs = []int32{
+var file_tcp_gateway_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -250,14 +250,14 @@ var file_sdk_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_sdk_proto_init() }
-func file_sdk_proto_init() {
-	if File_sdk_proto != nil {
+func init() { file_tcp_gateway_proto_init() }
+func file_tcp_gateway_proto_init() {
+	if File_tcp_gateway_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_sdk_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserOnlineReq); i {
+		file_tcp_gateway_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*OnlineUserReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -268,7 +268,7 @@ func file_sdk_proto_init() {
 				return nil
 			}
 		}
-		file_sdk_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_tcp_gateway_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*HeartbeatReq); i {
 			case 0:
 				return &v.state
@@ -280,8 +280,8 @@ func file_sdk_proto_init() {
 				return nil
 			}
 		}
-		file_sdk_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserOfflineReq); i {
+		file_tcp_gateway_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*OfflineUserReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -292,7 +292,7 @@ func file_sdk_proto_init() {
 				return nil
 			}
 		}
-		file_sdk_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_tcp_gateway_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CommonResp); i {
 			case 0:
 				return &v.state
@@ -309,18 +309,18 @@ func file_sdk_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_sdk_proto_rawDesc,
+			RawDescriptor: file_tcp_gateway_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_sdk_proto_goTypes,
-		DependencyIndexes: file_sdk_proto_depIdxs,
-		MessageInfos:      file_sdk_proto_msgTypes,
+		GoTypes:           file_tcp_gateway_proto_goTypes,
+		DependencyIndexes: file_tcp_gateway_proto_depIdxs,
+		MessageInfos:      file_tcp_gateway_proto_msgTypes,
 	}.Build()
-	File_sdk_proto = out.File
-	file_sdk_proto_rawDesc = nil
-	file_sdk_proto_goTypes = nil
-	file_sdk_proto_depIdxs = nil
+	File_tcp_gateway_proto = out.File
+	file_tcp_gateway_proto_rawDesc = nil
+	file_tcp_gateway_proto_goTypes = nil
+	file_tcp_gateway_proto_depIdxs = nil
 }

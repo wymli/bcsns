@@ -1,17 +1,24 @@
 package result
 
 import (
-	"net"
-
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/logx"
-	"github.com/wymli/bcsns/dependency/codec"
+	"github.com/wymli/bcsns/pkg/codec"
 	pb "github.com/wymli/bcsns/dependency/pb/tcp"
+	"github.com/wymli/bcsns/pkg/server_framework/tcp"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
-func TcpResult(conn net.Conn, req protoreflect.ProtoMessage, rsp protoreflect.ProtoMessage, err error) {
+func TcpResult(conn *tcp.ConnCtx, req protoreflect.ProtoMessage, rsp protoreflect.ProtoMessage, err error) {
+	defer func() {
+		if err != nil {
+			conn.Logger.Error().Interface("req", req).Interface("rsp", rsp).Msg(err.Error())
+		} else {
+			conn.Logger.Info().Interface("req", req).Interface("rsp", rsp).Msg(err.Error())
+		}
+	}()
+
 	if err != nil {
 		stdErr := errx.ToApiError(err)
 		rsp = &pb.CommonResp{
@@ -29,9 +36,7 @@ func TcpResult(conn net.Conn, req protoreflect.ProtoMessage, rsp protoreflect.Pr
 		Payload:      respBody,
 	}
 
-	logx.Infof("req:%#v rsp:%#v err:%v", req, rsp, err)
-
-	n, err := conn.Write(frame.Encode())
+	n, err := conn.Conn.Write(frame.Encode())
 	if err != nil {
 		logx.Errorf("failed to write msg to tcp.conn, err:%v", err)
 	} else if n != frame.Size() {

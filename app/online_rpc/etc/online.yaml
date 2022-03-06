@@ -1,0 +1,19 @@
+Name: online-rpc
+ListenOn: 0.0.0.0:9020
+Mode: dev
+
+MyLog:
+  Env: dev
+  Level: debug
+  ServiceName: online-rpc
+
+MyRedis:
+  Host: localhost:6379
+  Type: node
+  Password: 
+  Key:
+    Online:
+      Pattern: online:*
+      Format: online:%d
+      Exp: 300 # seconds
+

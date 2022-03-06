@@ -3,24 +3,24 @@ package gateway
 import (
 	"github.com/wymli/bcsns/app/msg_gateway/svc"
 	"github.com/wymli/bcsns/app/msg_gateway/tcp/logic/gateway"
-	pb "github.com/wymli/bcsns/dependency/pb/tcp"
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/result"
-	"github.com/wymli/bcsns/pkg/tcp"
+	pb "github.com/wymli/bcsns/dependency/pb/tcp"
+	"github.com/wymli/bcsns/pkg/server_framework/tcp"
 	"google.golang.org/protobuf/proto"
 )
 
-func UserOfflineHandler(ctx *svc.ServiceContext) tcp.Handler {
+func OfflineUserHandler(ctx *svc.ServiceContext) tcp.Handler {
 	return func(connCtx *tcp.ConnCtx, body []byte) {
-		var req *pb.UserOfflineReq
+		var req *pb.OfflineUserReq
 		if err := proto.Unmarshal(body, req); err != nil {
 			err = errx.Wrapf(errx.ERROR_BAD_REQUEST, "failed to unmarshal pb, invalid argument, err:%v", err)
-			result.TcpResult(connCtx.Conn, req, nil, err)
+			result.TcpResult(connCtx, req, nil, err)
 		}
 
-		l := gateway.NewUserOfflineLogic(connCtx.Ctx, ctx)
-		resp, err := l.UserOffline(connCtx, req)
+		l := gateway.NewOfflineUserLogic(connCtx, ctx)
+		resp, err := l.OfflineUser(req)
 
-		result.TcpResult(connCtx.Conn, req, resp, err)
+		result.TcpResult(connCtx, req, resp, err)
 	}
 }

@@ -20,6 +20,14 @@ Deploy:
   # Use: k8s,docker,docker-compose
   Use: docker
 
-Online:
-  RefreshInterval: 5 # min
-  KeyFormat: online:%d
+AuthRpcConfig:
+  Endpoints:
+    - localhost:9001
+
+
+OnlineRpcConfig:
+  Endpoints:
+    - localhost:9020
+
+TcpConfig:
+  ListenOn: 0.0.0.0:10001

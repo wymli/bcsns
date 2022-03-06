@@ -2,7 +2,7 @@ package svc
 
 import (
 	"github.com/wymli/bcsns/app/auth_api/internal/config"
-	"github.com/wymli/bcsns/app/auth/rpc/auth"
+	"github.com/wymli/bcsns/app/auth_rpc/auth"
 	mylogx "github.com/wymli/bcsns/common/logx"
 	zerologx "github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/zrpc"

@@ -6,9 +6,12 @@ import (
 
 	"github.com/wymli/bcsns/app/msg_gateway/config"
 	"github.com/wymli/bcsns/app/msg_gateway/rpc/biz/server"
-	"github.com/wymli/bcsns/app/msg_gateway/svc"
 	"github.com/wymli/bcsns/app/msg_gateway/rpc/pb"
+	"github.com/wymli/bcsns/app/msg_gateway/svc"
+	"github.com/wymli/bcsns/app/msg_gateway/tcp/handler"
 	"github.com/wymli/bcsns/common/interceptor/rpcfilter"
+	"github.com/wymli/bcsns/pkg/codec"
+	"github.com/wymli/bcsns/pkg/server_framework/tcp"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -25,7 +28,12 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	ctx := svc.NewServiceContext(c)
-	srv := server.NewGatewayServer(ctx)
+
+	startRpcServer(&c, ctx)
+}
+
+func startRpcServer(c *config.Config, svcCtx *svc.ServiceContext) {
+	srv := server.NewGatewayServer(svcCtx)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		pb.RegisterGatewayServer(grpcServer, srv)
@@ -45,11 +53,13 @@ func main() {
 	s.Start()
 }
 
-// func startTcpServer() {
-// 	s := tcp.NewServer()
-// 	s.AddRoutes()
+func startTcpServer(c *config.Config, svcCtx *svc.ServiceContext) {
+	s := tcp.NewServer()
+	handler.RegisterHandlers(s, svcCtx)
+	s.RegisterFramer(codec.Framer())
+	s.RegisterDecoder(codec.Decoder())
 
-// 	frame := tcpprotocol.TcpFrame{}
-// 	s.Framer = frame.Framer()
-// 	s.Decoder = frame.Decoder()
-// }
+	defer s.Stop()
+	fmt.Printf("Starting tcp server at %s...\n", c.ListenOn)
+	s.Start()
+}

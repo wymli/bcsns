@@ -6,10 +6,20 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func WithTraceCtx(ctx context.Context) Logger {
-	l := defaultLogger.With().Str("trace_id", GetTraceIdFromCtx(ctx)).Str("span_id", GetSpanIdFromCtx(ctx)).Logger()
+type KvEntry struct {
+	Key   string
+	Value interface{}
+}
+
+func WithTraceCtx(ctx context.Context, kvs ...KvEntry) Logger {
+	l := GlobalLogger.With().Str("trace_id", GetTraceIdFromCtx(ctx)).Str("span_id", GetSpanIdFromCtx(ctx))
+	for _, kv := range kvs {
+		l = l.Interface(kv.Key, kv.Value)
+	}
+	ll := l.Logger()
+
 	return Logger{
-		Logger: &l,
+		Logger: &ll,
 	}
 }
 

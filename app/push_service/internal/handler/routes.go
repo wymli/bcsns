@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/wymli/bcsns/app/push_service/internal/handler/push"
 	"github.com/wymli/bcsns/app/push_service/internal/svc"
-	"github.com/wymli/bcsns/pkg/mq"
+	"github.com/wymli/bcsns/pkg/server_framework/mq"
 )
 
 func RegisterHandlers(svr *mq.Server, serverCtx *svc.ServiceContext) {

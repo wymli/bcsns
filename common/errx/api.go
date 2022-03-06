@@ -28,7 +28,8 @@ var (
 	ERROR_USER_NOT_FOUND StdError = StdError{1005, "该用户不存在"}
 	ERROR_USER_DUPLICATE StdError = StdError{1006, "存在重复用户"}
 	ERROR_USER_WRONG_PWD StdError = StdError{1007, "密码错误"}
-	ERROR_USER_UNAUTHEN  StdError = StdError{1007, "未登录"}
+	ERROR_USER_UNAUTHEN  StdError = StdError{1007, "用户未登录"}
+	ERROR_USER_OFFLINE   StdError = StdError{1008, "用户未在线"}
 
 	ERROR_SERVER_UNIMPLEMENTED StdError = StdError{2001, "功能未实现"}
 
