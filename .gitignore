@@ -3,3 +3,5 @@ bin/*
 
 smart_contract/geth/*
 goctl/*
+deploy/redis/redis-benchmark
+deploy/redis/redis-cli
