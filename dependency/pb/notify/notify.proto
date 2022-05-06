@@ -1,0 +1,26 @@
+syntax = "proto3";
+package notify;
+option go_package = "github.com/wymli/bcsns/dependency/pb/notify;notify";
+
+enum NotifyType {
+  UNKNOWN = 0;
+  MSG_ON_CHAIN = 1;
+  MOMENTS_ON_CHAIN = 2;
+  MSG_READ = 3;
+  FRIENDS_ONLINE = 4;
+  FOLLOWS_ONLINE = 5;
+}
+
+message NotifyId {
+  oneof id {
+    uint64 user_id = 2;
+    int64 msg_id = 3;
+  }
+}
+
+message NotifyRecvId {
+  oneof recv_id {
+    uint64 user_id = 3;
+    uint64 room_id = 4;
+  }
+}

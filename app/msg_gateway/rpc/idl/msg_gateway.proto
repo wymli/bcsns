@@ -2,33 +2,68 @@ syntax = "proto3";
 package gateway;
 option go_package = "./pb";
 
-message PushMsgReq {
+import "notify/notify.proto";
+
+message PushUserMsgReq {
   string content_type = 2;
 
-  string send_msg_id = 3; // 用于服务端去重,客户端去重
-  int64 send_time = 4; // 用于接收端排序,但客户端时间不可信,除非先时间同步
+  int64 send_msg_id = 3;   // 用于服务端去重,客户端去重
+  int64 server_msg_id = 7; // 消息唯一id
 
-  int64 server_time = 5; // 服务端接收时间
-  int64 recv_seq = 6; // 消息序号,给接收端timeline消息编号,用于增量pull
-
-  string server_msg_id = 7; // 消息唯一id
-
-  string send_uid = 10; // user id
+  uint64 send_uid = 10; // user id
   string send_nickname = 11;
   string send_avatar = 12;
-  
-  optional string room_id = 19; // room id
-  repeated string recv_uid = 20;   // user id,群聊中,可能多个用户连在一台机器上,所以可以批量请求
-  
+
+  uint64 recv_uid = 15;
+
   bytes data = 30;
 
   optional bool is_test = 40;
 }
 
+message PushUserMsgResp {}
 
-message PushMsgResp {
+message PushRoomMsgReq {
+  string content_type = 2;
+
+  int64 send_msg_id = 3;   // 用于服务端去重,客户端去重
+  int64 server_msg_id = 7; // 消息唯一id
+
+  uint64 send_uid = 10; // user id
+  string send_nickname = 11;
+  string send_avatar = 12;
+
+  uint64 room_id = 19;                // room id
+  repeated uint64 recv_uid_list = 20; // 群消息聚合
+
+  bytes data = 30;
+
+  optional bool is_test = 40;
+}
+message PushRoomMsgResp {}
+
+message BatchPushUserMsgReq { repeated PushUserMsgReq push_user_msg_list = 1; }
+message BatchPushUserMsgResp {}
+
+message BatchPushRoomMsgReq { repeated PushRoomMsgReq push_room_msg_list = 1; }
+message BatchPushRoomMsgResp {}
+
+message BatchNotifyReq {
+  message notify_item {
+    uint64 uid = 1;
+    notify.NotifyType type = 2;
+    repeated notify.NotifyId notify_id_list = 3;
+  }
+  repeated notify_item notify_list = 1;
 }
 
+message BatchNotifyResp {}
+
 service Gateway {
-  rpc PushMsg(PushMsgReq) returns (PushMsgResp) {}
+  rpc PushUserMsg(PushUserMsgReq) returns (PushUserMsgResp);
+  rpc PushRoomMsg(PushRoomMsgReq) returns (PushRoomMsgResp);
+
+  rpc BatchPushUserMsg(BatchPushUserMsgReq) returns (BatchPushUserMsgResp);
+  rpc BatchPushRoomMsg(BatchPushRoomMsgReq) returns (BatchPushRoomMsgResp);
+  rpc BatchNotify(BatchNotifyReq) returns (BatchNotifyResp);
 }

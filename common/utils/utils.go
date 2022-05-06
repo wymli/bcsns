@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"strconv"
 )
 
 func ExtractOneFromStringMap(m map[string]string) (string, string, bool) {
@@ -15,10 +16,19 @@ func ExtractOneFromStringMap(m map[string]string) (string, string, bool) {
 }
 
 func ExtractUserIdFromCtx(ctx context.Context) (uint64, bool) {
-	userId, ok := ctx.Value("UserId").(uint64)
+	userId, ok := ctx.Value("x-user-id").(uint64)
 	return userId, ok
 }
 
-func CtxWithUserId(ctx context.Context, userId uint64) context.Context {
-	return context.WithValue(ctx, "UserId", userId)
+func StringUid(a uint64) string {
+	return "0x" + strconv.FormatUint(a, 16)
+}
+
+func UintUid(a string) uint64 {
+	x, err := strconv.ParseUint(a, 0, 64)
+	if err != nil {
+		return 0
+	}
+
+	return x
 }

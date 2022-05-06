@@ -3,9 +3,9 @@ package result
 import (
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/logx"
-	"github.com/wymli/bcsns/pkg/codec"
+	"github.com/wymli/bcsns/common/codec"
 	pb "github.com/wymli/bcsns/dependency/pb/tcp"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
@@ -20,10 +20,10 @@ func TcpResult(conn *tcp.ConnCtx, req protoreflect.ProtoMessage, rsp protoreflec
 	}()
 
 	if err != nil {
-		stdErr := errx.ToApiError(err)
+		stdErr := errx.ToStdError(err)
 		rsp = &pb.CommonResp{
 			Code: int64(stdErr.Code),
-			Msg:  stdErr.Msg,
+			Msg:  stdErr.ApiMsg,
 		}
 	}
 

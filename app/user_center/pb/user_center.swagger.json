@@ -1,0 +1,721 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "user_center.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "UserCenter"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/group": {
+      "get": {
+        "operationId": "UserCenter_GetGroupInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetGroupInfoResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      },
+      "post": {
+        "operationId": "UserCenter_MakeGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbMakeGroupResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbMakeGroupReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/group/join": {
+      "post": {
+        "operationId": "UserCenter_JoinGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbJoinGroupResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbJoinGroupReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/group/leave": {
+      "post": {
+        "operationId": "UserCenter_LeaveGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbLeaveGroupResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbLeaveGroupReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "operationId": "UserCenter_LoginUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbLoginUserResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbLoginUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "operationId": "UserCenter_GetUserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetUserInfoResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      },
+      "post": {
+        "operationId": "UserCenter_RegisterUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRegisterUserResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRegisterUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user/fans": {
+      "get": {
+        "operationId": "UserCenter_GetMyFans",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMyFansResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user/follow": {
+      "post": {
+        "operationId": "UserCenter_Follow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbFollowResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbFollowReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user/follows": {
+      "get": {
+        "operationId": "UserCenter_GetMyFollows",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMyFollowsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user/friends": {
+      "get": {
+        "operationId": "UserCenter_GetMyFriends",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMyFriendsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user/groups": {
+      "post": {
+        "operationId": "UserCenter_GetMyGroups",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMyGroupsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    },
+    "/api/v1/user/unfollow": {
+      "post": {
+        "operationId": "UserCenter_Unfollow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUnfollowResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUnfollowReq"
+            }
+          }
+        ],
+        "tags": [
+          "UserCenter"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbFollowReq": {
+      "type": "object",
+      "properties": {
+        "to": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbFollowResp": {
+      "type": "object"
+    },
+    "pbGetGroupInfoResp": {
+      "type": "object",
+      "properties": {
+        "groupInfo": {
+          "$ref": "#/definitions/pbGroupInfo"
+        }
+      }
+    },
+    "pbGetGroupMemberUidResp": {
+      "type": "object",
+      "properties": {
+        "uidList": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        }
+      }
+    },
+    "pbGetMyFansResp": {
+      "type": "object",
+      "properties": {
+        "fansList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbUserInfo"
+          }
+        }
+      }
+    },
+    "pbGetMyFansUidResp": {
+      "type": "object",
+      "properties": {
+        "fansUidList": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        }
+      }
+    },
+    "pbGetMyFollowsResp": {
+      "type": "object",
+      "properties": {
+        "followsList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbUserInfo"
+          }
+        }
+      }
+    },
+    "pbGetMyFriendsResp": {
+      "type": "object",
+      "properties": {
+        "friendsList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbUserInfo"
+          }
+        }
+      }
+    },
+    "pbGetMyGroupsResp": {
+      "type": "object",
+      "properties": {
+        "groupsList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbGroupInfo"
+          }
+        }
+      }
+    },
+    "pbGetUserInfoResp": {
+      "type": "object",
+      "properties": {
+        "userInfo": {
+          "$ref": "#/definitions/pbUserInfo"
+        }
+      }
+    },
+    "pbGroupInfo": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbUserInfo"
+          }
+        }
+      }
+    },
+    "pbJoinGroupReq": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbJoinGroupResp": {
+      "type": "object"
+    },
+    "pbLeaveGroupReq": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbLeaveGroupResp": {
+      "type": "object"
+    },
+    "pbLoginUserReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "loginType": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "smsCode": {
+          "type": "string"
+        }
+      }
+    },
+    "pbLoginUserResp": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "accessToken": {
+          "type": "string"
+        },
+        "accessExpire": {
+          "type": "string",
+          "format": "int64"
+        },
+        "refreshAfter": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbMakeGroupReq": {
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "invitedUids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        }
+      }
+    },
+    "pbMakeGroupResp": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbRegisterUserReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "address": {
+          "type": "string"
+        },
+        "publicKey": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "smsCode": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRegisterUserResp": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "accessToken": {
+          "type": "string"
+        },
+        "accessExpire": {
+          "type": "string",
+          "format": "int64"
+        },
+        "refreshAfter": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbUnfollowReq": {
+      "type": "object",
+      "properties": {
+        "to": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "pbUnfollowResp": {
+      "type": "object"
+    },
+    "pbUserInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "avater": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "publicKey": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

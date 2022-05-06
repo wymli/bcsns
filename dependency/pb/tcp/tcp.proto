@@ -1,0 +1,52 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;tcp";
+
+import "notify/notify.proto";
+
+message OnlineUserReq {
+  uint64 user_id = 1;
+  string token = 2;
+}
+
+message HeartbeatReq {}
+
+message OfflineUserReq {}
+
+message CommonResp {
+  int64 code = 1;
+  string msg = 2;
+}
+
+message ChatMsg {
+  string content_type = 2;
+
+  int64 send_msg_id = 3;   // 用于服务端去重,客户端去重
+  int64 server_msg_id = 7; // 消息唯一id
+
+  uint64 send_uid = 10; // user id
+  string send_nickname = 11;
+  string send_avatar = 12;
+
+  uint64 recv_uid = 15;
+
+  optional uint64 room_id = 16;
+  bytes data = 30;
+
+  optional bool is_test = 40;
+}
+
+message LocationMsg {
+  int64 longitude = 1; // 经度
+  int64 latitude = 2;  // 纬度
+}
+
+message Notification {
+  notify.NotifyType type = 1;
+  repeated notify.NotifyId notify_id_list = 2;
+}
+
+message Ack {
+  int64 code = 1;
+  string msg = 2;
+}

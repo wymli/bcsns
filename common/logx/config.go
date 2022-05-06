@@ -1,7 +1,7 @@
 package logx
 
 type Config struct {
-	Env         string `json:",options=[test,dev,prod]"`
-	Level       string `json:",default=debug,options=[debug,info,error]"`
-	ServiceName string `json:",optional"`
+	Env         string `yaml:"env,omitempty"`
+	Level       string `yaml:"level,omitempty"`
+	ServiceName string `yaml:"service_name,omitempty"`
 }

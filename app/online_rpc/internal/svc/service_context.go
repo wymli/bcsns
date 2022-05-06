@@ -4,8 +4,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/wymli/bcsns/app/online_rpc/internal/config"
 
-	mylogx "github.com/wymli/bcsns/common/logx"
-	zerologx "github.com/zeromicro/go-zero/core/logx"
+	"github.com/wymli/bcsns/common/logx"
 )
 
 type ServiceContext struct {
@@ -14,14 +13,12 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	zerologx.Disable()
-	mylogx.Init(c.MyLog)
-	mylogx.Infof("config: %#v", c)
+	logx.Init(c.Log)
 
 	return &ServiceContext{
 		Config: c,
 		RedisClient: redis.NewClient(&redis.Options{
-			Addr: c.MyRedis.Host,
+			Addr: c.Redis.Host,
 			// Password: c.MyRedis.Password,
 		}),
 	}

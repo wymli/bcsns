@@ -5,7 +5,8 @@ import (
 	"net"
 	"sync"
 
-	"github.com/wymli/bcsns/pkg/codec"
+	"github.com/wymli/bcsns/common/codec"
+	"github.com/wymli/bcsns/common/errx"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
@@ -27,11 +28,11 @@ func NewUserConn(userId uint64, conn net.Conn) *UserConn {
 func (c *UserConn) Send(bs []byte) error {
 	n, err := c.Conn.Write(bs)
 	if err != nil {
-		return fmt.Errorf("failed to write frame[%s], err:%v", string(bs), err)
+		return errx.Wrapf(errx.ERROR_IO, "failed to write frame to socket, err:%v", err)
 	}
 
 	if n != len(bs) {
-		return fmt.Errorf("failed to write enough bytes of frame[%s], expected:%v, actual:%v", string(bs), len(bs), n)
+		return errx.Wrapf(errx.ERROR_IO, "failed to write enough bytes of frame to socket, expected:%v, actual:%v", len(bs), n)
 	}
 
 	return nil
@@ -46,7 +47,7 @@ func (c *UserConn) SendFrame(frame codec.TcpFrame) error {
 func (c *UserConn) SendPBMsg(msg protoreflect.ProtoMessage) error {
 	bs, err := proto.Marshal(msg)
 	if err != nil {
-		return fmt.Errorf("failed to marshall proto msg:%v, err:%v", msg, err)
+		return errx.Wrapf(errx.ERROR_MARSHALL, "failed to marshall proto msg:%v, err:%v", msg, err)
 	}
 
 	frame := codec.TcpFrame{

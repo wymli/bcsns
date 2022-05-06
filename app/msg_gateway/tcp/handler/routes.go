@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/wymli/bcsns/app/msg_gateway/svc"
 	"github.com/wymli/bcsns/app/msg_gateway/tcp/handler/gateway"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 )
 
 func RegisterHandlers(server *tcp.Server, serverCtx *svc.ServiceContext) {
@@ -18,7 +18,7 @@ func RegisterHandlers(server *tcp.Server, serverCtx *svc.ServiceContext) {
 		},
 		{
 			Path:    3,
-			Handler: gateway.UserOfflineHandler(serverCtx),
+			Handler: gateway.OfflineUserHandler(serverCtx),
 		},
 	})
 }

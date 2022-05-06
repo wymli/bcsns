@@ -26,12 +26,12 @@ func NewBatchOfflineUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *BatchOfflineUserLogic) BatchOfflineUser(in *pb.BatchOfflineUserReq) (*pb.BatchOfflineUserResp, error) {
-	ks := make([]string, len(in.UserId))
-	for _, userId := range in.UserId {
-		ks = append(ks, fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, userId))
+	ks := make([]string, len(in.UserIdList))
+	for _, userId := range in.UserIdList {
+		ks = append(ks, fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, userId))
 	}
 
-	if err := l.svcCtx.RedisClient.Del(context.Background(), ks...).Err(); err != nil {
+	if err := l.svcCtx.RedisClient.Del(l.ctx, ks...).Err(); err != nil {
 		return nil, errx.Wrapf(errx.ERROR_REDIS, "failed to batch offline user, err:%v", err)
 	}
 

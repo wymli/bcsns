@@ -27,10 +27,10 @@ func NewKeepAliveUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Kee
 }
 
 func (l *KeepAliveUserLogic) KeepAliveUser(in *pb.KeepAliveUserReq) (*pb.KeepAliveUserResp, error) {
-	k := fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, in.UserId)
+	k := fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, in.UserId)
 
-	if err := l.svcCtx.RedisClient.Expire(context.Background(), k,
-		time.Duration(l.svcCtx.Config.MyRedis.Key.Online.Exp)*time.Second).Err(); err != nil {
+	if err := l.svcCtx.RedisClient.Expire(l.ctx, k,
+		time.Duration(l.svcCtx.Config.Biz.RedisKey.Online.Exp)*time.Second).Err(); err != nil {
 		return nil, errx.Wrapf(errx.ERROR_REDIS, "failed to keepalive user, err:%v", err)
 	}
 

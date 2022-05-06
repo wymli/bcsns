@@ -15,7 +15,7 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	zerologx.Disable()
-	mylogx.Init(c.Logx)
+	mylogx.Init(c.Log)
 
 	return &ServiceContext{
 		Config:     c,

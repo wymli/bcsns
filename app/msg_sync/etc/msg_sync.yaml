@@ -1,0 +1,41 @@
+name: msg_sync
+mode: dev
+
+log:
+  service_name: msg_sync
+  level: debug
+  env: dev
+
+kafka:
+  broker:
+    endpoints:
+      - localhost:9092
+
+online_rpc:
+  endpoints:
+    - localhost:9090
+
+user_rpc:
+  endpoints:
+    - localhost:9091
+
+gateway_rpc:
+  endpoints:
+    - localhost:9999
+  size: 3
+
+cassandra:
+  endpoints:
+    - localhost
+  key_space: bcsns
+  consistency: 0x0A
+
+biz:
+  table:
+    moment: moment
+    message: message
+    failed_message: failed_message
+  topic:
+    chat_user: chat_user
+    chat_room: chat_room
+    moments: moments

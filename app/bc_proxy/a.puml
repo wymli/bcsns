@@ -1,0 +1,116 @@
+@startuml
+namespace bcproxy {
+    class bcproxy.OnChainMomentsReq << (T, #FF7700) >>  {
+    }
+    class defaultBcProxy << (S,Aquamarine) >> {
+        + OnChainUserMsg(ctx context.Context, in *OnChainUserMsgReq, opts ...grpc.CallOption) (*OnChainUserMsgResp, error)
+        + OnChainRoomMsg(ctx context.Context, in *OnChainRoomMsgReq, opts ...grpc.CallOption) (*OnChainRoomMsgResp, error)
+        + OnChainRoomAction(ctx context.Context, in *OnChainRoomActionReq, opts ...grpc.CallOption) (*OnChainRoomActionResp, error)
+        + OnChainMoments(ctx context.Context, in *OnChainMomentsReq, opts ...grpc.CallOption) (*OnChainMomentsResp, error)
+
+    }
+    class "pb.OnChainMomentsReq" as pbOnChainMomentsReq {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+
+
+namespace config {
+    class Config << (S,Aquamarine) >> {
+        + BlockChain config.BlockChainConfig
+        + Logx logx.Config
+        + Kafka config.KafkaConfig
+
+    }
+}
+"zrpc.RpcServerConf" *-- "config.Config"
+
+
+namespace logic {
+    class EventNotifyLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+        - notifyCh <font color=blue>chan</font> <font color=blue>interface</font>{}
+
+        + Notify() 
+
+    }
+    class EventWatchLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+        - notifyCh <font color=blue>chan</font> <font color=blue>interface</font>{}
+
+        - watchUserMsgPersistedEvent() 
+        - watchRoomMsgPersistedEvent() 
+        - watchMomentsPersistedEvent() 
+
+        + Watch() 
+        + GetAllRoomMsg(room_id uint64) 
+
+    }
+    class OnChainMomentsLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + OnChainMoments(in *pb.OnChainMomentsReq) (*pb.OnChainMomentsResp, error)
+
+    }
+    class OnChainRoomActionLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + OnChainRoomAction(in *pb.OnChainRoomActionReq) (*pb.OnChainRoomActionResp, error)
+
+    }
+    class OnChainRoomMsgLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + OnChainRoomMsg(in *pb.OnChainRoomMsgReq) (*pb.OnChainRoomMsgResp, error)
+
+    }
+    class OnChainUserMsgLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + OnChainUserMsg(in *pb.OnChainUserMsgReq) (*pb.OnChainUserMsgResp, error)
+
+    }
+}
+"logx.Logger" *-- "logic.EventNotifyLogic"
+"logx.Logger" *-- "logic.EventWatchLogic"
+"logx.Logger" *-- "logic.OnChainMomentsLogic"
+"logx.Logger" *-- "logic.OnChainRoomActionLogic"
+"logx.Logger" *-- "logic.OnChainRoomMsgLogic"
+"logx.Logger" *-- "logic.OnChainUserMsgLogic"
+
+
+namespace server {
+    class BcProxyServer << (S,Aquamarine) >> {
+        - svcCtx *svc.ServiceContext
+
+        + OnChainUserMsg(ctx context.Context, in *pb.OnChainUserMsgReq) (*pb.OnChainUserMsgResp, error)
+        + OnChainRoomMsg(ctx context.Context, in *pb.OnChainRoomMsgReq) (*pb.OnChainRoomMsgResp, error)
+        + OnChainRoomAction(ctx context.Context, in *pb.OnChainRoomActionReq) (*pb.OnChainRoomActionResp, error)
+        + OnChainMoments(ctx context.Context, in *pb.OnChainMomentsReq) (*pb.OnChainMomentsResp, error)
+
+    }
+}
+"pb.UnimplementedBcProxyServer" *-- "server.BcProxyServer"
+
+
+namespace svc {
+    class ServiceContext << (S,Aquamarine) >> {
+        + Config config.Config
+        + EtherClient *ethclient.Client
+        + BcsnsClient *smart_contract.Bcsns
+        + KafkaProducer *kafka.Writer
+        + BCAuth *bind.TransactOpts
+        + SysAccountAddr common.Address
+
+    }
+}
+
+
+"bcproxy.pbOnChainMomentsReq" #.. "bcproxy.OnChainMomentsReq"
+@enduml

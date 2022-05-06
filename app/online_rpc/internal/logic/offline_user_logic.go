@@ -26,9 +26,9 @@ func NewOfflineUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Offli
 }
 
 func (l *OfflineUserLogic) OfflineUser(in *pb.OfflineUserReq) (*pb.OfflineUserResp, error) {
-	k := fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, in.UserId)
+	k := fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, in.UserId)
 
-	if err := l.svcCtx.RedisClient.Del(context.Background(), k).Err(); err != nil {
+	if err := l.svcCtx.RedisClient.Del(l.ctx, k).Err(); err != nil {
 		return nil, errx.Wrapf(errx.ERROR_REDIS, "failed to offline user, err:%v", err)
 	}
 

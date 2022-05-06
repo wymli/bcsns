@@ -1,0 +1,227 @@
+@startuml
+namespace config {
+    class Config << (S,Aquamarine) >> {
+        + Logx logx.Config
+        + Kafka config.KafkaConfig
+        + Redisx config.RedisConfig
+        + Snowflake config.SnowflakeConfig
+
+    }
+}
+"zrpc.RpcServerConf" *-- "config.Config"
+
+
+namespace logic {
+    class PostMomentsLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + PostMoments(in *pb.PostMomentsReq) (*pb.PostMomentsResp, error)
+
+    }
+    class SendRoomMsgLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + SendRoomMsg(in *pb.SendRoomMsgReq) (*pb.SendRoomMsgResp, error)
+
+    }
+    class SendUserMsgLogic << (S,Aquamarine) >> {
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + SendUserMsg(in *pb.SendUserMsgReq) (*pb.SendUserMsgResp, error)
+
+    }
+}
+"logx.Logger" *-- "logic.PostMomentsLogic"
+"logx.Logger" *-- "logic.SendRoomMsgLogic"
+"logx.Logger" *-- "logic.SendUserMsgLogic"
+
+
+namespace pb {
+    interface MessageClient  {
+        + SendUserMsg(ctx "context.Context, in *SendUserMsgReq, opts ...grpc.CallOption) (*SendUserMsgResp, error)
+        + SendRoomMsg(ctx "context.Context, in *SendRoomMsgReq, opts ...grpc.CallOption) (*SendRoomMsgResp, error)
+        + PostMoments(ctx "context.Context, in *PostMomentsReq, opts ...grpc.CallOption) (*PostMomentsResp, error)
+
+    }
+    interface MessageServer  {
+        - mustEmbedUnimplementedMessageServer() 
+
+        + SendUserMsg( "context.Context,  *SendUserMsgReq) (*SendUserMsgResp, error)
+        + SendRoomMsg( "context.Context,  *SendRoomMsgReq) (*SendRoomMsgResp, error)
+        + PostMoments( "context.Context,  *PostMomentsReq) (*PostMomentsResp, error)
+
+    }
+    class PostMomentsReq << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + ContentType string
+        + SendMomentsId int64
+        + ServerMomentsId int64
+        + UserId uint64
+        + Data []byte
+        + IsTest *bool
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetContentType() string
+        + GetSendMomentsId() int64
+        + GetServerMomentsId() int64
+        + GetUserId() uint64
+        + GetData() []byte
+        + GetIsTest() bool
+
+    }
+    class PostMomentsResp << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + ServerId int64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetServerId() int64
+
+    }
+    class SendRoomMsgReq << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + ContentType string
+        + SendMsgId int64
+        + SendUserId uint64
+        + RoomId uint64
+        + Data []byte
+        + IsTest *bool
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetContentType() string
+        + GetSendMsgId() int64
+        + GetSendUserId() uint64
+        + GetRoomId() uint64
+        + GetData() []byte
+        + GetIsTest() bool
+
+    }
+    class SendRoomMsgResp << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + ServerId int64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetServerId() int64
+
+    }
+    class SendUserMsgReq << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + ContentType string
+        + SendMsgId int64
+        + SendUserId uint64
+        + RecvUserId uint64
+        + Data []byte
+        + IsTest *bool
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetContentType() string
+        + GetSendMsgId() int64
+        + GetSendUserId() uint64
+        + GetRecvUserId() uint64
+        + GetData() []byte
+        + GetIsTest() bool
+
+    }
+    class SendUserMsgResp << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + ServerId int64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetServerId() int64
+
+    }
+    class UnimplementedMessageServer << (S,Aquamarine) >> {
+        - mustEmbedUnimplementedMessageServer() 
+
+        + SendUserMsg( "context.Context,  *SendUserMsgReq) (*SendUserMsgResp, error)
+        + SendRoomMsg( "context.Context,  *SendRoomMsgReq) (*SendRoomMsgResp, error)
+        + PostMoments( "context.Context,  *PostMomentsReq) (*PostMomentsResp, error)
+
+    }
+    interface UnsafeMessageServer  {
+        - mustEmbedUnimplementedMessageServer() 
+
+    }
+    class messageClient << (S,Aquamarine) >> {
+        - cc grpc.ClientConnInterface
+
+        + SendUserMsg(ctx "context.Context, in *SendUserMsgReq, opts ...grpc.CallOption) (*SendUserMsgResp, error)
+        + SendRoomMsg(ctx "context.Context, in *SendRoomMsgReq, opts ...grpc.CallOption) (*SendRoomMsgResp, error)
+        + PostMoments(ctx "context.Context, in *PostMomentsReq, opts ...grpc.CallOption) (*PostMomentsResp, error)
+
+    }
+}
+
+"pb.MessageServer" <|-- "pb.UnimplementedMessageServer"
+"pb.UnsafeMessageServer" <|-- "pb.UnimplementedMessageServer"
+"pb.MessageClient" <|-- "pb.messageClient"
+
+namespace server {
+    class MessageServer << (S,Aquamarine) >> {
+        - svcCtx *svc.ServiceContext
+
+        + SendUserMsg(ctx context.Context, in *pb.SendUserMsgReq) (*pb.SendUserMsgResp, error)
+        + SendRoomMsg(ctx context.Context, in *pb.SendRoomMsgReq) (*pb.SendRoomMsgResp, error)
+        + PostMoments(ctx context.Context, in *pb.PostMomentsReq) (*pb.PostMomentsResp, error)
+
+    }
+}
+"pb.UnimplementedMessageServer" *-- "server.MessageServer"
+
+
+namespace svc {
+    class ServiceContext << (S,Aquamarine) >> {
+        + Config config.Config
+        + KafkaClient *kafka.Writer
+        + RedisClient *redis.Client
+        + SnowflakeNode *snowflake.Node
+
+    }
+}
+
+
+@enduml

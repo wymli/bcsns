@@ -1,0 +1,197 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "msg_pull.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MsgPull"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/moments/latest": {
+      "post": {
+        "operationId": "MsgPull_PullLatestMoments",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbPullLatestMomentsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbPullLatestMomentsReq"
+            }
+          }
+        ],
+        "tags": [
+          "MsgPull"
+        ]
+      }
+    },
+    "/api/v1/msg/latest": {
+      "post": {
+        "operationId": "MsgPull_PullLatestMsg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbPullLatestMsgResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbPullLatestMsgReq"
+            }
+          }
+        ],
+        "tags": [
+          "MsgPull"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbMessage": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        },
+        "serverMsgId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sendUserId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "roomId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "pbMoments": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        },
+        "serverMsgId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sendUserId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "pbPullLatestMomentsReq": {
+      "type": "object",
+      "properties": {
+        "localMomentId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbPullLatestMomentsResp": {
+      "type": "object",
+      "properties": {
+        "momentsList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbMoments"
+          }
+        }
+      }
+    },
+    "pbPullLatestMsgReq": {
+      "type": "object",
+      "properties": {
+        "localMsgId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbPullLatestMsgResp": {
+      "type": "object",
+      "properties": {
+        "msgList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbMessage"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

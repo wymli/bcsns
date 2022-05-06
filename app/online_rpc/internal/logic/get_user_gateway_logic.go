@@ -27,9 +27,9 @@ func NewGetUserGatewayLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetUserGatewayLogic) GetUserGateway(in *pb.GetUserGatewayReq) (*pb.GetUserGatewayResp, error) {
-	k := fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, in.UserId)
+	k := fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, in.UserId)
 
-	res := l.svcCtx.RedisClient.Get(context.Background(), k)
+	res := l.svcCtx.RedisClient.Get(l.ctx, k)
 	switch res.Err() {
 	case redis.Nil:
 		return nil, errx.Wrapf(errx.ERROR_USER_OFFLINE, "user:%d is not online", in.UserId)

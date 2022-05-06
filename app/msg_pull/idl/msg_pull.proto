@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+message Message {
+  string content_type = 1; // 内容类型
+  int64 server_msg_id = 2;
+  uint64 send_user_id = 4; // sender user id
+  uint64 room_id = 6;      // group id if it is a group chat
+  bytes data = 7;          // payload body
+}
+
+message Moments {
+  string content_type = 1; // 内容类型
+  int64 server_msg_id = 2;
+  uint64 send_user_id = 4; // sender user id
+  bytes data = 7;          // payload body
+}
+
+message PullLatestMsgReq { int64 local_msg_id = 1; }
+message PullLatestMsgResp { repeated Message msg_list = 1; }
+
+message PullLatestMomentsReq { int64 local_moment_id = 1; }
+message PullLatestMomentsResp { repeated Moments moments_list = 1; }
+
+service MsgPull {
+  rpc PullLatestMsg(PullLatestMsgReq) returns (PullLatestMsgResp) {
+    option (google.api.http) = {
+      post : "/api/v1/msg/latest"
+      body : "*"
+    };
+  }
+  rpc PullLatestMoments(PullLatestMomentsReq) returns (PullLatestMomentsResp) {
+    option (google.api.http) = {
+      post : "/api/v1/moments/latest"
+      body : "*"
+    };
+  }
+}

@@ -11,7 +11,7 @@ message OnlineUserReq {
 message OnlineUserResp { int64 exp = 3; }
 
 message BatchOnlineUserReq {
-  repeated uint64 user_id = 1;
+  repeated uint64 user_id_list = 1;
   string gateway_addr = 2;
 }
 message BatchOnlineUserResp { int64 exp = 3; }
@@ -19,23 +19,23 @@ message BatchOnlineUserResp { int64 exp = 3; }
 message KeepAliveUserReq { uint64 user_id = 1; }
 message KeepAliveUserResp { int64 exp = 3; }
 
-message BatchKeepAliveUserReq { repeated uint64 user_id = 1; }
+message BatchKeepAliveUserReq { repeated uint64 user_id_list = 1; }
 message BatchKeepAliveUserResp { int64 exp = 3; }
 
 message OfflineUserReq { uint64 user_id = 1; }
 message OfflineUserResp {}
 
-message BatchOfflineUserReq { repeated uint64 user_id = 1; }
+message BatchOfflineUserReq { repeated uint64 user_id_list = 1; }
 message BatchOfflineUserResp {}
 
 message GetUserGatewayReq { uint64 user_id = 1; }
 message GetUserGatewayResp { string gateway_addr = 1; }
 
-message BatchGetUserGatewayReq { repeated uint64 user_id = 1; }
-message BatchGetUserGatewayResp { repeated string gateway_addr = 1; }
+message BatchGetUserGatewayReq { repeated uint64 user_id_list = 1; }
+message BatchGetUserGatewayResp { repeated string gateway_addr_list = 1; }
 
 message GetAllOnlineUserReq {}
-message GetAllOnlineUserResp { repeated uint64 user_id = 1; }
+message GetAllOnlineUserResp { repeated uint64 user_id_list = 1; }
 
 service online {
   rpc OnlineUser(OnlineUserReq)

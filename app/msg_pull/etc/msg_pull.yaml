@@ -1,0 +1,18 @@
+name: msgpull-rpc
+listen_on: 0.0.0.0:9001
+mode: dev
+
+log:
+  env: dev
+  level: debug
+  service_name: msgpull-rpc
+
+cassandra:
+  endpoints: localhost:10010
+  key_space: bcsns
+  consistency: 0x0A # local one
+
+table:
+  moment: moment
+  message: message
+  failed_message: failed_message

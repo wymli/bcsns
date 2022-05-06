@@ -1,25 +1,31 @@
 package config
 
 import (
-	"github.com/wymli/bcsns/common/logx"
-	"github.com/zeromicro/go-zero/zrpc"
+	"github.com/wymli/bcsns/common/config"
 )
 
 type Config struct {
-	zrpc.RpcServerConf
-	MyLog   logx.Config
-	MyRedis RedisConf
+	config.RpcServerConfig
+	Redis config.RedisConfig `yaml:"redis,omitempty"`
+
+	Biz struct {
+		RedisKey struct {
+			Online struct {
+				Pattern string `yaml:"pattern,omitempty"`
+				Format  string `yaml:"format,omitempty"`
+				Exp     int64  `yaml:"exp,omitempty"`
+			} `yaml:"online,omitempty"`
+		} `yaml:"redis_key,omitempty"`
+	} `yaml:"biz,omitempty"`
 }
 
-type RedisConf struct {
-	Host     string
-	Type     string
-	Password string
-	Key      struct {
-		Online struct {
-			Pattern string
-			Format string
-			Exp    int64
-		}
-	}
-}
+// Key      struct {
+// 	Online struct {
+
+// 	} `yaml:"online,omitempty"`
+// 	Deduplicate struct {
+// 		Pattern string `yaml:"pattern,omitempty"`
+// 		Format  string `yaml:"format,omitempty"`
+// 		Exp     int64  `yaml:"exp,omitempty"`
+// 	} `yaml:"deduplicate,omitempty"`
+// } `yaml:"key,omitempty"`

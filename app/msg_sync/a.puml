@@ -1,0 +1,111 @@
+@startuml
+namespace config {
+    class Config << (S,Aquamarine) >> {
+        + Logx logx.Config
+        + Kafka config.KafkaConfig
+        + OnlineRpc zrpc.RpcClientConf
+        + UserRpc zrpc.RpcClientConf
+        + BCProxyRpc zrpc.RpcClientConf
+        + GatewayRpc conn.Config
+        + Cassandra config.CassandraConfig
+
+    }
+}
+
+
+namespace model {
+    class SyncMessage << (S,Aquamarine) >> {
+        + Uid uint64
+        + SendUid uint64
+        + RoomId uint64
+        + ServerMsgId int64
+        + SendMsgId int64
+        + ContentType string
+        + Data []byte
+
+        + Clear() 
+        + Store(sess *gocql.Session, table string) error
+
+    }
+    class SyncMessages << (S,Aquamarine) >> {
+        + BatchStore(sess *gocql.Session, table string) error
+
+    }
+    class SyncMoment << (S,Aquamarine) >> {
+        + Uid uint64
+        + SendUid uint64
+        + ServerMsgId int64
+        + ContentType string
+        + Data []byte
+
+        + Clear() 
+        + Store(sess *gocql.Session, table string) error
+
+    }
+    class SyncMoments << (S,Aquamarine) >> {
+        + BatchStore(sess *gocql.Session, table string) error
+
+    }
+    class model.SyncMessages << (T, #FF7700) >>  {
+    }
+    class model.SyncMoments << (T, #FF7700) >>  {
+    }
+}
+
+
+namespace svc {
+    class ServiceContext << (S,Aquamarine) >> {
+        + Config config.Config
+        + KafkaClient *kafka.Writer
+        + OnlineRpc online.Online
+        + GatewayRpcPool conn.ConnPool
+        + CassandraClient *gocql.Session
+        + UserRpc user.User
+        + BCProxyRpc bcproxy.BcProxy
+
+    }
+}
+
+
+namespace sync {
+    class ConsumeMomentsLogic << (S,Aquamarine) >> {
+        - log logx.Logger
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + ConsumeMoments(req *mq.Moments) error
+
+    }
+    class ConsumeNotificationLogic << (S,Aquamarine) >> {
+        - log logx.Logger
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + ConsumeNotification(req *mq.Notification) error
+        + NotifyOnChian(typ notify.NotifyType, uidList []uint64, msgId int64) error
+        + NotifyOnline(typ notify.NotifyType, recvUidList []uint64, onlineUid uint64) error
+        + NotifyMsgRead(typ notify.NotifyType, uid uint64, msgId int64) error
+
+    }
+    class ConsumeRoomMessageLogic << (S,Aquamarine) >> {
+        - log logx.Logger
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + ConsumeRoomMessage(req *mq.RoomChatMessage) error
+
+    }
+    class ConsumeUserMessageLogic << (S,Aquamarine) >> {
+        - log logx.Logger
+        - ctx context.Context
+        - svcCtx *svc.ServiceContext
+
+        + ConsumeUserMessage(req *mq.UserChatMessage) error
+
+    }
+}
+
+
+"model.[]SyncMessage" #.. "model.SyncMessages"
+"model.[]SyncMoment" #.. "model.SyncMoments"
+@enduml

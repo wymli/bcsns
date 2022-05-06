@@ -1,18 +1,14 @@
 package config
 
 import (
-	"github.com/wymli/bcsns/common/logx"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
-	"github.com/zeromicro/go-zero/zrpc"
+	"github.com/wymli/bcsns/common/config"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 )
 
 type Config struct {
-	zrpc.RpcServerConf
-	Logx            logx.Config
-	AuthRpcConfig   zrpc.RpcClientConf
-	OnlineRpcConfig zrpc.RpcClientConf
-	Deploy          struct {
-		Use string `json=",options=k8s|docker|docker-compose"`
-	}
-	TcpConfig tcp.Config
+	config.RpcServerConfig
+	AuthRpc   config.RpcClientConfig `yaml:"auth_rpc,omitempty"`
+	OnlineRpc config.RpcClientConfig `yaml:"online_rpc,omitempty"`
+	Deploy    config.DeployConfig    `yaml:"deploy,omitempty"`
+	TcpConfig tcp.Config             `yaml:"tcp_config,omitempty"`
 }

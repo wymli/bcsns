@@ -1,0 +1,168 @@
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint64",
+				"name": "send_uid",
+				"type": "uint64"
+			},
+			{
+				"indexed": false,
+				"internalType": "int64",
+				"name": "server_msg_id",
+				"type": "int64"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes",
+				"name": "message",
+				"type": "bytes"
+			}
+		],
+		"name": "momentsPersistedEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint64",
+				"name": "room_uid",
+				"type": "uint64"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint64",
+				"name": "send_uid",
+				"type": "uint64"
+			},
+			{
+				"indexed": false,
+				"internalType": "int64",
+				"name": "server_msg_id",
+				"type": "int64"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes",
+				"name": "message",
+				"type": "bytes"
+			}
+		],
+		"name": "roomMsgPersistedEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint64",
+				"name": "send_uid",
+				"type": "uint64"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint64",
+				"name": "recv_uid",
+				"type": "uint64"
+			},
+			{
+				"indexed": false,
+				"internalType": "int64",
+				"name": "server_msg_id",
+				"type": "int64"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes",
+				"name": "message",
+				"type": "bytes"
+			}
+		],
+		"name": "userMsgPersistedEvent",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "send_uid",
+				"type": "uint64"
+			},
+			{
+				"internalType": "int64",
+				"name": "server_msg_id",
+				"type": "int64"
+			},
+			{
+				"internalType": "bytes",
+				"name": "message",
+				"type": "bytes"
+			}
+		],
+		"name": "PersistMoments",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "room_id",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "send_uid",
+				"type": "uint64"
+			},
+			{
+				"internalType": "int64",
+				"name": "server_msg_id",
+				"type": "int64"
+			},
+			{
+				"internalType": "bytes",
+				"name": "message",
+				"type": "bytes"
+			}
+		],
+		"name": "PersistRoomMessage",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "send_uid",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "recv_uid",
+				"type": "uint64"
+			},
+			{
+				"internalType": "int64",
+				"name": "server_msg_id",
+				"type": "int64"
+			},
+			{
+				"internalType": "bytes",
+				"name": "message",
+				"type": "bytes"
+			}
+		],
+		"name": "PersistUserMessage",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

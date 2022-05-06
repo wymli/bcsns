@@ -1,0 +1,249 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "msg_send.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MsgSend"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/group/msg": {
+      "post": {
+        "operationId": "MsgSend_SendRoomMsg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSendRoomMsgResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbSendRoomMsgReq"
+            }
+          }
+        ],
+        "tags": [
+          "MsgSend"
+        ]
+      }
+    },
+    "/api/v1/user/moments": {
+      "post": {
+        "operationId": "MsgSend_PostMoments",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbPostMomentsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbPostMomentsReq"
+            }
+          }
+        ],
+        "tags": [
+          "MsgSend"
+        ]
+      }
+    },
+    "/api/v1/user/msg": {
+      "post": {
+        "operationId": "MsgSend_SendUserMsg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSendUserMsgResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbSendUserMsgReq"
+            }
+          }
+        ],
+        "tags": [
+          "MsgSend"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbPostMomentsReq": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        },
+        "sendMomentsId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        },
+        "isTest": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbPostMomentsResp": {
+      "type": "object",
+      "properties": {
+        "serverId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbSendRoomMsgReq": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        },
+        "sendMsgId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sendUserId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "roomId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        },
+        "isTest": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbSendRoomMsgResp": {
+      "type": "object",
+      "properties": {
+        "serverId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbSendUserMsgReq": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        },
+        "sendMsgId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sendUserId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "recvUserId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        },
+        "isTest": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbSendUserMsgResp": {
+      "type": "object",
+      "properties": {
+        "serverId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

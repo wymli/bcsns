@@ -1,0 +1,29 @@
+name: user-center-rpc
+listen_on: 0.0.0.0:9991
+mode: dev
+deploy: docker
+
+service_discovery:
+  discovery: redis
+  endpoints:
+    - localhost:6379
+
+trace:
+  name: user-center-rpc
+  exporter: jaeger
+  collector_endpoint: http://localhost:14268/api/traces
+  sample_ratio: 1
+
+log:
+  env: dev
+  level: debug
+  service_name: user-center-rpc
+
+dgraph:
+  endpoint: localhost:9080
+
+auth_rpc:
+  name: auth-rpc
+  endpoint: redis:///auth-rpc
+
+mock_all: false

@@ -1,0 +1,24 @@
+name: auth-rpc
+listen_on: 0.0.0.0:9023
+mode: dev
+
+service_discovery:
+  discovery: redis
+  endpoints:
+    - localhost:6379
+
+trace:
+  name: auth-rpc
+  exporter: jaeger
+  collector_endpoint: http://localhost:14268/api/traces
+  sample_ratio: 1
+
+
+log:
+  env: dev
+  level: info
+  service_name: auth-rpc
+
+jwt_auth:
+  access_secret: ae0536f9-6450-4606-8e13-5a19ed505ea0
+  access_expire: 31536000

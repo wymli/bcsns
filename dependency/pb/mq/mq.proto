@@ -2,6 +2,8 @@ syntax = "proto3";
 package mq;
 option go_package = "github.com/wymli/bcsns/dependency/pb/mq;mq";
 
+import "notify/notify.proto";
+
 message UserChatMessage {
   string content_type = 2; // RFC 7231
   int64 send_msg_id = 3;   // 用于服务端去重,客户端去重; snowflake
@@ -38,4 +40,11 @@ message Moments {
   bytes data = 30; // payload
 
   optional bool is_test = 40;
+}
+
+message Notification {
+  notify.NotifyType type = 1;
+  uint64 send_uid = 2;
+  notify.NotifyRecvId recv_id = 3;
+  notify.NotifyId notify_id = 4;
 }

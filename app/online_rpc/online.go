@@ -8,13 +8,10 @@ import (
 	"github.com/wymli/bcsns/app/online_rpc/internal/server"
 	"github.com/wymli/bcsns/app/online_rpc/internal/svc"
 	"github.com/wymli/bcsns/app/online_rpc/pb"
-	"github.com/wymli/bcsns/common/interceptor/rpcfilter"
+	conf "github.com/wymli/bcsns/common/config"
+	"github.com/wymli/bcsns/common/server_framework/rpc"
 
-	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/core/service"
-	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 var configFile = flag.String("f", "etc/online.yaml", "the config file")
@@ -23,24 +20,21 @@ func main() {
 	flag.Parse()
 
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
-	ctx := svc.NewServiceContext(c)
-	srv := server.NewOnlineServer(ctx)
+	conf.MustLoadConfig(*configFile, &c)
 
-	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		pb.RegisterOnlineServer(grpcServer, srv)
+	svcCtx := svc.NewServiceContext(c)
+	svr := server.NewOnlineServer(svcCtx)
 
-		if c.Mode == service.DevMode || c.Mode == service.TestMode {
-			reflection.Register(grpcServer)
-		}
-	})
+	var opts []grpc.ServerOption
+	opts = append(opts, rpc.DefaultServerIntercepterOpts()...)
 
-	// rpc filter
-	s.AddUnaryInterceptors(rpcfilter.RpcLogFilter)
-	s.AddUnaryInterceptors(rpcfilter.RpcErrConvertFilter)
+	grpcServer := grpc.NewServer(opts...)
 
-	defer s.Stop()
+	pb.RegisterOnlineServer(grpcServer, svr)
 
+	rpcServer := rpc.NewRpcServer(grpcServer, c.RpcServerConfig)
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
-	s.Start()
+
+	defer rpcServer.Stop()
+	rpcServer.MustStart()
 }

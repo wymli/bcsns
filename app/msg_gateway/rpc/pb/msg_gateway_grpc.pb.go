@@ -22,7 +22,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GatewayClient interface {
-	PushMsg(ctx context.Context, in *PushMsgReq, opts ...grpc.CallOption) (*PushMsgResp, error)
+	PushUserMsg(ctx context.Context, in *PushUserMsgReq, opts ...grpc.CallOption) (*PushUserMsgResp, error)
+	PushRoomMsg(ctx context.Context, in *PushRoomMsgReq, opts ...grpc.CallOption) (*PushRoomMsgResp, error)
+	BatchPushUserMsg(ctx context.Context, in *BatchPushUserMsgReq, opts ...grpc.CallOption) (*BatchPushUserMsgResp, error)
+	BatchPushRoomMsg(ctx context.Context, in *BatchPushRoomMsgReq, opts ...grpc.CallOption) (*BatchPushRoomMsgResp, error)
+	BatchNotify(ctx context.Context, in *BatchNotifyReq, opts ...grpc.CallOption) (*BatchNotifyResp, error)
 }
 
 type gatewayClient struct {
@@ -33,9 +37,45 @@ func NewGatewayClient(cc grpc.ClientConnInterface) GatewayClient {
 	return &gatewayClient{cc}
 }
 
-func (c *gatewayClient) PushMsg(ctx context.Context, in *PushMsgReq, opts ...grpc.CallOption) (*PushMsgResp, error) {
-	out := new(PushMsgResp)
-	err := c.cc.Invoke(ctx, "/gateway.Gateway/PushMsg", in, out, opts...)
+func (c *gatewayClient) PushUserMsg(ctx context.Context, in *PushUserMsgReq, opts ...grpc.CallOption) (*PushUserMsgResp, error) {
+	out := new(PushUserMsgResp)
+	err := c.cc.Invoke(ctx, "/gateway.Gateway/PushUserMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gatewayClient) PushRoomMsg(ctx context.Context, in *PushRoomMsgReq, opts ...grpc.CallOption) (*PushRoomMsgResp, error) {
+	out := new(PushRoomMsgResp)
+	err := c.cc.Invoke(ctx, "/gateway.Gateway/PushRoomMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gatewayClient) BatchPushUserMsg(ctx context.Context, in *BatchPushUserMsgReq, opts ...grpc.CallOption) (*BatchPushUserMsgResp, error) {
+	out := new(BatchPushUserMsgResp)
+	err := c.cc.Invoke(ctx, "/gateway.Gateway/BatchPushUserMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gatewayClient) BatchPushRoomMsg(ctx context.Context, in *BatchPushRoomMsgReq, opts ...grpc.CallOption) (*BatchPushRoomMsgResp, error) {
+	out := new(BatchPushRoomMsgResp)
+	err := c.cc.Invoke(ctx, "/gateway.Gateway/BatchPushRoomMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gatewayClient) BatchNotify(ctx context.Context, in *BatchNotifyReq, opts ...grpc.CallOption) (*BatchNotifyResp, error) {
+	out := new(BatchNotifyResp)
+	err := c.cc.Invoke(ctx, "/gateway.Gateway/BatchNotify", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +86,11 @@ func (c *gatewayClient) PushMsg(ctx context.Context, in *PushMsgReq, opts ...grp
 // All implementations must embed UnimplementedGatewayServer
 // for forward compatibility
 type GatewayServer interface {
-	PushMsg(context.Context, *PushMsgReq) (*PushMsgResp, error)
+	PushUserMsg(context.Context, *PushUserMsgReq) (*PushUserMsgResp, error)
+	PushRoomMsg(context.Context, *PushRoomMsgReq) (*PushRoomMsgResp, error)
+	BatchPushUserMsg(context.Context, *BatchPushUserMsgReq) (*BatchPushUserMsgResp, error)
+	BatchPushRoomMsg(context.Context, *BatchPushRoomMsgReq) (*BatchPushRoomMsgResp, error)
+	BatchNotify(context.Context, *BatchNotifyReq) (*BatchNotifyResp, error)
 	mustEmbedUnimplementedGatewayServer()
 }
 
@@ -54,8 +98,20 @@ type GatewayServer interface {
 type UnimplementedGatewayServer struct {
 }
 
-func (UnimplementedGatewayServer) PushMsg(context.Context, *PushMsgReq) (*PushMsgResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PushMsg not implemented")
+func (UnimplementedGatewayServer) PushUserMsg(context.Context, *PushUserMsgReq) (*PushUserMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushUserMsg not implemented")
+}
+func (UnimplementedGatewayServer) PushRoomMsg(context.Context, *PushRoomMsgReq) (*PushRoomMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushRoomMsg not implemented")
+}
+func (UnimplementedGatewayServer) BatchPushUserMsg(context.Context, *BatchPushUserMsgReq) (*BatchPushUserMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchPushUserMsg not implemented")
+}
+func (UnimplementedGatewayServer) BatchPushRoomMsg(context.Context, *BatchPushRoomMsgReq) (*BatchPushRoomMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchPushRoomMsg not implemented")
+}
+func (UnimplementedGatewayServer) BatchNotify(context.Context, *BatchNotifyReq) (*BatchNotifyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchNotify not implemented")
 }
 func (UnimplementedGatewayServer) mustEmbedUnimplementedGatewayServer() {}
 
@@ -70,20 +126,92 @@ func RegisterGatewayServer(s grpc.ServiceRegistrar, srv GatewayServer) {
 	s.RegisterService(&Gateway_ServiceDesc, srv)
 }
 
-func _Gateway_PushMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PushMsgReq)
+func _Gateway_PushUserMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PushUserMsgReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GatewayServer).PushMsg(ctx, in)
+		return srv.(GatewayServer).PushUserMsg(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/gateway.Gateway/PushMsg",
+		FullMethod: "/gateway.Gateway/PushUserMsg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GatewayServer).PushMsg(ctx, req.(*PushMsgReq))
+		return srv.(GatewayServer).PushUserMsg(ctx, req.(*PushUserMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Gateway_PushRoomMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PushRoomMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GatewayServer).PushRoomMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gateway.Gateway/PushRoomMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GatewayServer).PushRoomMsg(ctx, req.(*PushRoomMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Gateway_BatchPushUserMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchPushUserMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GatewayServer).BatchPushUserMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gateway.Gateway/BatchPushUserMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GatewayServer).BatchPushUserMsg(ctx, req.(*BatchPushUserMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Gateway_BatchPushRoomMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchPushRoomMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GatewayServer).BatchPushRoomMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gateway.Gateway/BatchPushRoomMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GatewayServer).BatchPushRoomMsg(ctx, req.(*BatchPushRoomMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Gateway_BatchNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchNotifyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GatewayServer).BatchNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gateway.Gateway/BatchNotify",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GatewayServer).BatchNotify(ctx, req.(*BatchNotifyReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +224,24 @@ var Gateway_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GatewayServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "PushMsg",
-			Handler:    _Gateway_PushMsg_Handler,
+			MethodName: "PushUserMsg",
+			Handler:    _Gateway_PushUserMsg_Handler,
+		},
+		{
+			MethodName: "PushRoomMsg",
+			Handler:    _Gateway_PushRoomMsg_Handler,
+		},
+		{
+			MethodName: "BatchPushUserMsg",
+			Handler:    _Gateway_BatchPushUserMsg_Handler,
+		},
+		{
+			MethodName: "BatchPushRoomMsg",
+			Handler:    _Gateway_BatchPushRoomMsg_Handler,
+		},
+		{
+			MethodName: "BatchNotify",
+			Handler:    _Gateway_BatchNotify_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

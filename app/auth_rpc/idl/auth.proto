@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+message GenerateTokenReq { uint64 user_id = 1; }
+message GenerateTokenResp {
+  string access_token = 1;
+  int64 access_expire = 2;
+  int64 refresh_after = 3;
+}
+
+message ClearTokenReq { uint64 user_id = 1; }
+message ClearTokenResp {}
+
+message ValidateTokenReq { string token = 1; }
+message ValidateTokenResp { uint64 user_id = 1; }
+
+service Auth {
+  // 生成token，只针对用户服务开放访问
+  rpc GenerateToken(GenerateTokenReq) returns (GenerateTokenResp) {
+    option (google.api.http) = {
+      post : "/api/v1/token/generate"
+      body : "*"
+    };
+  }
+  // 清除token，只针对用户服务开放访问
+  rpc ClearToken(ClearTokenReq) returns (ClearTokenResp) {
+    option (google.api.http) = {
+      post : "/api/v1/token/clear"
+      body : "*"
+    };
+  }
+  // 验证Token ，只很对用户服务、授权服务api开放
+  rpc ValidateToken(ValidateTokenReq) returns (ValidateTokenResp) {
+    option (google.api.http) = {
+      post : "/api/v1/token/validate"
+      body : "*"
+    };
+  }
+}

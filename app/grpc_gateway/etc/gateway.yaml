@@ -1,0 +1,36 @@
+name: grpc-gateway
+listen_on: 0.0.0.0:8888
+mode: dev
+deploy: process
+
+service_discovery:
+  discovery: redis
+  endpoints:
+    - localhost:6379
+
+log:
+  env: dev
+  level: debug
+  service_name: grpc-gateway
+
+trace:
+  name: grpc-gateway
+  exporter: jaeger
+  collector_endpoint: http://localhost:14268/api/traces
+  sample_ratio: 1
+
+user_center_rpc:
+  name: user-center-rpc
+  endpoint: redis:///user-center-rpc
+
+msg_send_rpc:
+  name: msg_send_rpc
+  endpoint: redis:///msg-send-rpc
+
+msg_pull_rpc:
+  name: msg_pull_rpc
+  endpoint: redis:///msg-pull-rpc
+
+bc_pull_rpc:
+  name: bc_pull_rpc
+  endpoint: redis:///bc-pull-rpc

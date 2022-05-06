@@ -6,7 +6,7 @@ import (
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/result"
 	pb "github.com/wymli/bcsns/dependency/pb/tcp"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 	"google.golang.org/protobuf/proto"
 )
 

@@ -23,9 +23,9 @@ func httpResult(r *http.Request, w http.ResponseWriter, req interface{}, rsp int
 		return
 	}
 
-	apiErr := errx.ToApiError(err)
+	apiErr := errx.ToStdError(err)
 
-	ret = Error(apiErr.Code, apiErr.Msg)
+	ret = Error(apiErr.Code, apiErr.ApiMsg)
 	logx.WithTraceCtx(r.Context()).Error().Msgf("%v %v req:%v rsp:%v err:%v", r.Method, r.URL.String(), req, ret, err)
 	httpx.WriteJson(w, apiErr.ToHttpStatusCode(), ret)
 }

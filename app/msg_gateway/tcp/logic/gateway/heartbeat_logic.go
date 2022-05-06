@@ -4,12 +4,12 @@ import (
 	"context"
 
 	"github.com/wymli/bcsns/app/msg_gateway/svc"
-	"github.com/wymli/bcsns/app/online_rpc/online"
+	pbonline "github.com/wymli/bcsns/app/online_rpc/pb"
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/logx"
 	"github.com/wymli/bcsns/common/utils"
 	pb "github.com/wymli/bcsns/dependency/pb/tcp"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 )
 
 type HeartbeatLogic struct {
@@ -34,7 +34,7 @@ func (l *HeartbeatLogic) Heartbeat(req *pb.HeartbeatReq) (resp *pb.CommonResp, e
 	}
 
 	// keep alive user online status
-	_, err = l.svcCtx.OnlineRpc.KeepAliveUser(context.Background(), &online.KeepAliveUserReq{
+	_, err = l.svcCtx.OnlineRpc.KeepAliveUser(context.Background(), &pbonline.KeepAliveUserReq{
 		UserId: userId,
 	})
 	if err != nil {

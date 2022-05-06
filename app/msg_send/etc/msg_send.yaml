@@ -1,0 +1,32 @@
+name: msgsend-rpc
+listen_on: 0.0.0.0:9001
+mode: dev
+
+log:
+  env: dev
+  level: debug
+  service_name: msgsend-rpc
+
+snowflake:
+  node_number: 1
+
+redis:
+  host: localhost:6379
+  type: node
+  password:
+
+kafka:
+  broker:
+    endpoints:
+      - localhost:9092
+
+biz:
+  topic:
+    chat_user: chat_user
+    chat_room: chat_room
+    moments: moments
+  redis_key:
+    deduplicate:
+      pattern: dd:*
+      format: dd:%d:%d # dd:${uid}:${msg_id}
+      exp: 300 # seconds

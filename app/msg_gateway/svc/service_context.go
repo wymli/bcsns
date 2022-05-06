@@ -1,31 +1,30 @@
 package svc
 
 import (
-	"github.com/wymli/bcsns/app/auth_rpc/auth"
+	pbauth "github.com/wymli/bcsns/app/auth_rpc/pb"
 	"github.com/wymli/bcsns/app/msg_gateway/config"
 	gw "github.com/wymli/bcsns/app/msg_gateway/tcp"
-	"github.com/wymli/bcsns/app/online_rpc/online"
+	pbonline "github.com/wymli/bcsns/app/online_rpc/pb"
+	"google.golang.org/grpc"
 
-	mylogx "github.com/wymli/bcsns/common/logx"
-	zerologx "github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/zrpc"
+	"github.com/wymli/bcsns/common/logx"
+	"github.com/wymli/bcsns/common/server_framework/rpc"
 )
 
 type ServiceContext struct {
 	Config       config.Config
-	AuthRpc      auth.Auth
+	AuthRpc      pbauth.AuthClient
 	UserConnPool *gw.UserConnPool
-	OnlineRpc    online.Online
+	OnlineRpc    pbonline.OnlineClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	zerologx.Disable()
-	mylogx.Init(c.Logx)
+	logx.Init(c.Log)
 
 	return &ServiceContext{
 		Config:       c,
-		AuthRpc:      auth.NewAuth(zrpc.MustNewClient(c.AuthRpcConfig)),
+		AuthRpc:      pbauth.NewAuthClient(rpc.Must(grpc.Dial(c.AuthRpc.Endpoint))),
 		UserConnPool: gw.NewUserConnPool(),
-		OnlineRpc: online.NewOnline(zrpc.MustNewClient(c.OnlineRpcConfig)),
+		OnlineRpc:    pbonline.NewOnlineClient(rpc.Must(grpc.Dial(c.OnlineRpc.Endpoint))),
 	}
 }

@@ -26,8 +26,8 @@ func NewGetAllOnlineUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetAllOnlineUserLogic) GetAllOnlineUser(in *pb.GetAllOnlineUserReq) (*pb.GetAllOnlineUserResp, error) {
-	pattern := l.svcCtx.Config.MyRedis.Key.Online.Pattern
-	res := l.svcCtx.RedisClient.Keys(context.Background(), pattern)
+	pattern := l.svcCtx.Config.Biz.RedisKey.Online.Pattern
+	res := l.svcCtx.RedisClient.Keys(l.ctx, pattern)
 	if res.Err() != nil {
 		return nil, errx.Wrapf(errx.ERROR_REDIS, "failed to get all online users, err:%v", res.Err())
 	}
@@ -45,6 +45,6 @@ func (l *GetAllOnlineUserLogic) GetAllOnlineUser(in *pb.GetAllOnlineUserReq) (*p
 	}
 
 	return &pb.GetAllOnlineUserResp{
-		UserId: userIds,
+		UserIdList: userIds,
 	}, nil
 }

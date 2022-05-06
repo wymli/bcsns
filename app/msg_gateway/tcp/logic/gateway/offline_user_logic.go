@@ -4,12 +4,12 @@ import (
 	"context"
 
 	"github.com/wymli/bcsns/app/msg_gateway/svc"
-	"github.com/wymli/bcsns/app/online_rpc/online"
+	pbonline "github.com/wymli/bcsns/app/online_rpc/pb"
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/logx"
 	"github.com/wymli/bcsns/common/utils"
 	pb "github.com/wymli/bcsns/dependency/pb/tcp"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 )
 
 type OfflineUserLogic struct {
@@ -37,7 +37,7 @@ func (l *OfflineUserLogic) OfflineUser(req *pb.OfflineUserReq) (resp *pb.CommonR
 		return nil, errx.Wrapf(errx.ERROR_SERVER_COMMON, "failed to close connection of userId:%v, err:%v", userId, err)
 	}
 
-	_, err = l.svcCtx.OnlineRpc.OfflineUser(context.Background(), &online.OfflineUserReq{
+	_, err = l.svcCtx.OnlineRpc.OfflineUser(context.Background(), &pbonline.OfflineUserReq{
 		UserId: userId,
 	})
 	if err != nil {

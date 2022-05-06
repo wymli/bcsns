@@ -50,8 +50,8 @@ func (l *GenerateTokenLogic) GenerateToken(in *pb.GenerateTokenReq) (*pb.Generat
 
 func (l *GenerateTokenLogic) generateJwtToken(secretKey string, iat, exp int64, userId uint64) (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"exp":    iat + exp,
-		"iat":    iat,
-		"userid": userId,
+		KEY_EXP:    iat + exp,
+		KEY_IAT:    iat,
+		KEY_USERID: userId,
 	}).SignedString([]byte(secretKey))
 }

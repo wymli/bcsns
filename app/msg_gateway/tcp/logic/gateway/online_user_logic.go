@@ -5,14 +5,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/wymli/bcsns/app/auth_rpc/auth"
+	pbauth "github.com/wymli/bcsns/app/auth_rpc/pb"
 	"github.com/wymli/bcsns/app/msg_gateway/svc"
-	"github.com/wymli/bcsns/app/online_rpc/online"
+	pbonline "github.com/wymli/bcsns/app/online_rpc/pb"
 	"github.com/wymli/bcsns/common/errx"
 	"github.com/wymli/bcsns/common/logx"
-	"github.com/wymli/bcsns/common/utils"
+	"github.com/wymli/bcsns/common/metadata"
+	"github.com/wymli/bcsns/common/server_framework/tcp"
 	pb "github.com/wymli/bcsns/dependency/pb/tcp"
-	"github.com/wymli/bcsns/pkg/server_framework/tcp"
 )
 
 type OnlineUserLogic struct {
@@ -30,21 +30,17 @@ func NewOnlineUserLogic(connCtx *tcp.ConnCtx, svcCtx *svc.ServiceContext) Online
 }
 
 func (l *OnlineUserLogic) OnlineUser(req *pb.OnlineUserReq) (resp *pb.CommonResp, err error) {
-	rsp, err := l.svcCtx.AuthRpc.ValidateToken(context.Background(), &auth.ValidateTokenReq{
-		UserId: req.UserId,
-		Token:  req.Token,
+	_, err = l.svcCtx.AuthRpc.ValidateToken(l.ctx, &pbauth.ValidateTokenReq{
+		Token: req.Token,
 	})
 	if err != nil {
 		return nil, errx.Wrapf(err, "failed to validate token, err:%v", err)
 	}
-	if !rsp.Ok {
-		return nil, errx.ERROR_TOKEN_INVALID
-	}
 
 	l.svcCtx.UserConnPool.AddConn(req.UserId, l.connCtx.Conn)
 
-	l.connCtx.Ctx = utils.CtxWithUserId(l.connCtx.Ctx, req.UserId)
-	l.connCtx.Logger = logx.WithTraceCtx(l.connCtx.Ctx, logx.KvEntry{Key: "userId", Value: req.UserId})
+	l.connCtx.Ctx = metadata.CtxWithUserId(l.connCtx.Ctx, req.UserId)
+	l.connCtx.Logger = logx.WithTraceCtx(l.connCtx.Ctx, logx.KvEntry{Key: "userid", Value: req.UserId})
 
 	// todo: 统一一下配置获取,如果部署在k8s内,如果是暴露自己,那么肯定是通过环境变量的方式,统一一下配置获取,看要不要上viper
 	// todo: k8s内,pod要以某种方式暴露给集群外,只有nodeport,ingress gateway几种方式,ingress似乎偏向于http,对于tcp可能就直接nodeport即可(存疑)
@@ -64,7 +60,7 @@ func (l *OnlineUserLogic) OnlineUser(req *pb.OnlineUserReq) (resp *pb.CommonResp
 	}
 
 	// set user online
-	_, err = l.svcCtx.OnlineRpc.OnlineUser(context.Background(), &online.OnlineUserReq{
+	_, err = l.svcCtx.OnlineRpc.OnlineUser(l.ctx, &pbonline.OnlineUserReq{
 		UserId:      req.UserId,
 		GatewayAddr: addr,
 	})

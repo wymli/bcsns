@@ -27,10 +27,10 @@ func NewBatchGetUserGatewayLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *BatchGetUserGatewayLogic) BatchGetUserGateway(in *pb.BatchGetUserGatewayReq) (*pb.BatchGetUserGatewayResp, error) {
-	res, err := l.svcCtx.RedisClient.Pipelined(context.Background(), func(p redis.Pipeliner) error {
-		for _, userId := range in.UserId {
-			k := fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, userId)
-			p.Get(context.Background(), k)
+	res, err := l.svcCtx.RedisClient.Pipelined(l.ctx, func(p redis.Pipeliner) error {
+		for _, userId := range in.UserIdList {
+			k := fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, userId)
+			p.Get(l.ctx, k)
 		}
 		return nil
 	})
@@ -42,7 +42,7 @@ func (l *BatchGetUserGatewayLogic) BatchGetUserGateway(in *pb.BatchGetUserGatewa
 		return nil, errx.Wrapf(errx.ERROR_REDIS, "failed to batch get user gateway, err:%v", err)
 	}
 
-	addrs := make([]string, len(in.UserId))
+	addrs := make([]string, len(in.UserIdList))
 	for i, cmd := range res {
 		if cmd.Err() == redis.Nil {
 			addrs[i] = ""
@@ -52,6 +52,6 @@ func (l *BatchGetUserGatewayLogic) BatchGetUserGateway(in *pb.BatchGetUserGatewa
 	}
 
 	return &pb.BatchGetUserGatewayResp{
-		GatewayAddr: addrs,
+		GatewayAddrList: addrs,
 	}, nil
 }

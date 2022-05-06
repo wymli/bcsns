@@ -29,10 +29,10 @@ func NewBatchKeepAliveUserLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 //  is not online
 func (l *BatchKeepAliveUserLogic) BatchKeepAliveUser(in *pb.BatchKeepAliveUserReq) (*pb.BatchKeepAliveUserResp, error) {
-	_, err := l.svcCtx.RedisClient.Pipelined(context.Background(), func(p redis.Pipeliner) error {
-		for _, userId := range in.UserId {
-			k := fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, userId)
-			p.Expire(context.Background(), k, time.Duration(l.svcCtx.Config.MyRedis.Key.Online.Exp)*time.Second)
+	_, err := l.svcCtx.RedisClient.Pipelined(l.ctx, func(p redis.Pipeliner) error {
+		for _, userId := range in.UserIdList {
+			k := fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, userId)
+			p.Expire(l.ctx, k, time.Duration(l.svcCtx.Config.Biz.RedisKey.Online.Exp)*time.Second)
 		}
 		return nil
 	})

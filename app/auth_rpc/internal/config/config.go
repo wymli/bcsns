@@ -1,15 +1,10 @@
 package config
 
 import (
-	"github.com/wymli/bcsns/common/logx"
-	"github.com/zeromicro/go-zero/zrpc"
+	"github.com/wymli/bcsns/common/config"
 )
 
 type Config struct {
-	zrpc.RpcServerConf
-	JwtAuth struct {
-		AccessSecret string
-		AccessExpire int64
-	}
-	Logx logx.Config
+	config.RpcServerConfig `yaml:",inline"`
+	JwtAuth                config.JwtConfig `yaml:"jwt_auth,omitempty"`
 }

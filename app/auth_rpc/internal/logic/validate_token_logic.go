@@ -41,21 +41,14 @@ func (l *ValidateTokenLogic) ValidateToken(in *pb.ValidateTokenReq) (*pb.Validat
 	}
 
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-		return &pb.ValidateTokenResp{
-			UserId: 0,
-			Ok:     false,
-		}, nil
+		return nil, errx.ERROR_TOKEN_INVALID
 	}
 
 	if !token.Valid {
-		return &pb.ValidateTokenResp{
-			UserId: 0,
-			Ok:     false,
-		}, nil
+		return nil, errx.ERROR_TOKEN_INVALID
 	}
 
 	return &pb.ValidateTokenResp{
-		UserId: token.Claims.(jwt.MapClaims)["userid"].(uint64),
-		Ok:     true,
+		UserId: token.Claims.(jwt.MapClaims)[KEY_USERID].(uint64),
 	}, nil
 }

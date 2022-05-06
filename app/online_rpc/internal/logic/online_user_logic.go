@@ -27,14 +27,14 @@ func NewOnlineUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Online
 }
 
 func (l *OnlineUserLogic) OnlineUser(in *pb.OnlineUserReq) (*pb.OnlineUserResp, error) {
-	k := fmt.Sprintf(l.svcCtx.Config.MyRedis.Key.Online.Format, in.UserId)
+	k := fmt.Sprintf(l.svcCtx.Config.Biz.RedisKey.Online.Format, in.UserId)
 
-	err := l.svcCtx.RedisClient.SetEX(context.Background(), k, in.GatewayAddr, time.Duration(l.svcCtx.Config.MyRedis.Key.Online.Exp)*time.Second).Err()
+	err := l.svcCtx.RedisClient.SetEX(l.ctx, k, in.GatewayAddr, time.Duration(l.svcCtx.Config.Biz.RedisKey.Online.Exp)*time.Second).Err()
 	if err != nil {
 		return nil, errx.Wrapf(errx.ERROR_REDIS, "failed to online user, err:%v", err)
 	}
 
 	return &pb.OnlineUserResp{
-		Exp: l.svcCtx.Config.MyRedis.Key.Online.Exp,
+		Exp: l.svcCtx.Config.Biz.RedisKey.Online.Exp,
 	}, nil
 }

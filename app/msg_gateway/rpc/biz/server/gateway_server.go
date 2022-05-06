@@ -22,7 +22,27 @@ func NewGatewayServer(svcCtx *svc.ServiceContext) *GatewayServer {
 	}
 }
 
-func (s *GatewayServer) PushMsg(ctx context.Context, in *pb.PushMsgReq) (*pb.PushMsgResp, error) {
-	l := logic.NewPushMsgLogic(ctx, s.svcCtx)
-	return l.PushMsg(in)
+func (s *GatewayServer) PushUserMsg(ctx context.Context, in *pb.PushUserMsgReq) (*pb.PushUserMsgResp, error) {
+	l := logic.NewPushUserMsgLogic(ctx, s.svcCtx)
+	return l.PushUserMsg(in)
+}
+
+func (s *GatewayServer) PushRoomMsg(ctx context.Context, in *pb.PushRoomMsgReq) (*pb.PushRoomMsgResp, error) {
+	l := logic.NewPushRoomMsgLogic(ctx, s.svcCtx)
+	return l.PushRoomMsg(in)
+}
+
+func (s *GatewayServer) BatchPushUserMsg(ctx context.Context, in *pb.BatchPushUserMsgReq) (*pb.BatchPushUserMsgResp, error) {
+	l := logic.NewBatchPushUserMsgLogic(ctx, s.svcCtx)
+	return l.BatchPushUserMsg(in)
+}
+
+func (s *GatewayServer) BatchPushRoomMsg(ctx context.Context, in *pb.BatchPushRoomMsgReq) (*pb.BatchPushRoomMsgResp, error) {
+	l := logic.NewBatchPushRoomMsgLogic(ctx, s.svcCtx)
+	return l.BatchPushRoomMsg(in)
+}
+
+func (s *GatewayServer) BatchNotify(ctx context.Context, in *pb.BatchNotifyReq) (*pb.BatchNotifyResp, error) {
+	l := logic.NewBatchNotifyLogic(ctx, s.svcCtx)
+	return l.BatchNotify(in)
 }

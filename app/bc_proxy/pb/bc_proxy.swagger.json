@@ -1,0 +1,201 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "bc_proxy.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "bc_proxy"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/group/msg": {
+      "get": {
+        "operationId": "bc_proxy_PullRoomMsg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbPullRoomMsgResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "startBlock",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "endBlock",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "bc_proxy"
+        ]
+      }
+    },
+    "/api/v1/user/msg": {
+      "get": {
+        "operationId": "bc_proxy_PullUserMsg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbPullUserMsgResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fromUid",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "recvUid",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "startBlock",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "endBlock",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "bc_proxy"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbMsg": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        },
+        "serverMsgId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sendUserId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "recvId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "pbOnChainMomentsResp": {
+      "type": "object"
+    },
+    "pbOnChainRoomMsgResp": {
+      "type": "object"
+    },
+    "pbOnChainUserMsgResp": {
+      "type": "object"
+    },
+    "pbPullRoomMsgResp": {
+      "type": "object",
+      "properties": {
+        "msgList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbMsg"
+          }
+        }
+      }
+    },
+    "pbPullUserMsgResp": {
+      "type": "object",
+      "properties": {
+        "msgList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbMsg"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
