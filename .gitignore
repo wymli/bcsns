@@ -1,2 +1,5 @@
 !bin/.gitkeep
 bin/*
+
+smart_contract/geth/*
+goctl/*
